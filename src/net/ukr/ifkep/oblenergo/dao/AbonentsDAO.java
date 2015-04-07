@@ -1,9 +1,5 @@
 package net.ukr.ifkep.oblenergo.dao;
 
-public class AbonentsDAO {
-	
-	package net.ukr.ifkep.course_project.dao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,9 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.ukr.ifkep.course_project.domain.Abonents;
+import net.ukr.ifkep.oblenergo.domain.Abonents;
 
-public class AbonentDao {
+public class AbonentsDAO {
 
 	private static final String INSERT_QUERY = "insert into oblenergo.`абоненти` "
 			+ "(`Прізвище`, `Ім'я`, `Дата народження`, `Стать`, `Тип населеного пункту`,`Назва населеного пункту`"
@@ -32,7 +28,7 @@ public class AbonentDao {
 
 	public int insertAbonent(Abonents abonents) throws Exception {
 
-		Connection connection = DataAccessUtil.createConnection();
+		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection.prepareStatement(INSERT_QUERY,
 				Statement.RETURN_GENERATED_KEYS);
 
@@ -48,14 +44,14 @@ public class AbonentDao {
 			
 			statement.executeUpdate();
 
-			return DataAccessUtil.getNewRowKey(statement);
+			return AccessUtil.getNewRowKey(statement);
 		} finally {
-			DataAccessUtil.close(connection);
+			AccessUtil.close(connection);
 		}
 	}
 
 	public void updateAbonents(Abonents abonents) throws Exception {
-		Connection connection = DataAccessUtil.createConnection();
+		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);
 
 		try {
@@ -70,24 +66,24 @@ public class AbonentDao {
 
 			statement.executeUpdate();
 		} finally {
-			DataAccessUtil.close(connection);
+			AccessUtil.close(connection);
 		}
 	}
 
 	public void deleteGroup(int Id) throws Exception {
-		Connection connection = DataAccessUtil.createConnection();
+		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection.prepareStatement(DELETE_QUERY);
 
 		try {
 			statement.setInt(1, Id);
 			statement.executeUpdate();
 		} finally {
-			DataAccessUtil.close(connection);
+			AccessUtil.close(connection);
 		}
 	}
 
 	public Abonents findById(int Id) throws Exception {
-		Connection connection = DataAccessUtil.createConnection();
+		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection.prepareStatement(SELECT_QUERY);
 
 		try {
@@ -98,12 +94,12 @@ public class AbonentDao {
 			}
 			return null;
 		} finally {
-			DataAccessUtil.close(connection);
+			AccessUtil.close(connection);
 		}
 	}
 
 	public List<Abonents> findAll() throws Exception {
-		Connection connection = DataAccessUtil.createConnection();
+		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection
 				.prepareStatement(SELECT_ALL_QUERY);
 
@@ -115,7 +111,7 @@ public class AbonentDao {
 			}
 			return result;
 		} finally {
-			DataAccessUtil.close(connection);
+			AccessUtil.close(connection);
 		}
 	}
 
@@ -125,13 +121,14 @@ public class AbonentDao {
 		Abonent.setId(rs.getInt(1));
 		Abonent.setSurname(rs.getString(2));
 		Abonent.setName(rs.getString(3));
-		Abonent.setGroupType(rs.getInt(4));
-		Abonent.setCourse(rs.getInt(5));
-		Abonent.setCountStud(rs.getInt(6));
+		Abonent.setBirth(rs.getString(4));
+		Abonent.setSex(rs.getString(5));
+		Abonent.setTypeLocality(rs.getString(6));
+		Abonent.setNameLocality(rs.getString(7));
+		Abonent.setAddress(rs.getString(8));
+		Abonent.setTelephone(rs.getString(9));
 
-		return group;
+		return Abonent;
 	}
 }
 
-
-}
