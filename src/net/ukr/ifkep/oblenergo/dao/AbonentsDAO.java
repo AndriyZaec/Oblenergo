@@ -90,7 +90,7 @@ public class AbonentsDAO {
 			statement.setInt(1, Id);
 			ResultSet rs = statement.executeQuery();
 			if (rs.next()) {
-				return getGroupFromRow(rs);
+				return getAbonentFromRow(rs);
 			}
 			return null;
 		} finally {
@@ -107,7 +107,7 @@ public class AbonentsDAO {
 			ResultSet rs = statement.executeQuery();
 			List<Abonents> result = new ArrayList<Abonents>();
 			while (rs.next()) {
-				result.add(getGroupFromRow(rs));
+				result.add(getAbonentFromRow(rs));
 			}
 			return result;
 		} finally {
@@ -115,7 +115,7 @@ public class AbonentsDAO {
 		}
 	}
 
-	private static Abonents getGroupFromRow(ResultSet rs) throws Exception {
+	private static Abonents getAbonentFromRow(ResultSet rs) throws Exception {
 		Abonents Abonent = new Abonents();
 		
 		Abonent.setId(rs.getInt(1));

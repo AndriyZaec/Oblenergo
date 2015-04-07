@@ -2,6 +2,7 @@ package net.ukr.ifkep.oblenergo.domain;
 
 public class Payments extends DomainType {
 	
+	private String PaymentDate;
 	private String CurPayment;
 	private float CurIndex;
 	private float LastIndex;
@@ -11,7 +12,6 @@ public class Payments extends DomainType {
 	private double Price;
 	private String Payer;
 	
-	private String PaymentDate;
 	/**
 	 * @return the paymentDate
 	 */
