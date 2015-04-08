@@ -11,11 +11,11 @@ import net.ukr.ifkep.oblenergo.domain.Abonents;
 
 public class AbonentsDAO {
 
-	private static final String INSERT_QUERY = "insert into oblenergo.`абоненти` "
-			+ "(`Прізвище`, `Ім'я`, `Дата народження`, `Стать`, `Тип населеного пункту`,`Назва населеного пункту`"
-			+ "`Адреса`,`Номер телефону`) values ('?', '?', '?', '?', '?','?','?','?')";
+	private static final String INSERT_QUERY = "insert into oblenergo.`абоненти`"
+			+ "(`Прізвище`, `Ім'я`, `Дата народження`, `Стать`, `Тип населеного пункту`,`Назва населеного пункту`,"
+			+ "`Адреса`,`Номер телефону`) " + "values( ? , ? , ? , ? , ? , ? , ? , ? )";
 	private static final String UPDATE_QUERY = "update oblenergo.`абоненти` "
-			+ "set Прізвище = ?, `Ім'я` = ?, `Дата народження` = ?, Стать = ?, `Тип населеного пункту` = ? "
+			+ "set Прізвище = ?, `Ім'я` = ?, `Дата народження` = ?, Стать = ?, `Тип населеного пункту` = ?, "
 			+ "`Назва населеного пункту`=?, Адреса=?, `Номер телефону`= ?"
 			+ "where `Особовий рахунок` = ?";
 	private static final String DELETE_QUERY = "delete from oblenergo.`абоненти` where `Особовий рахунок` = ?";
@@ -26,7 +26,7 @@ public class AbonentsDAO {
 			+ "`Тип населеного пункту`,	`Назва населеного пункту`,	Адреса,`Номер телефону` "
 			+ "from oblenergo.`абоненти` ";
 
-	public int insertAbonent(Abonents abonents) throws Exception {
+	public int insertAbonent(int id,Abonents abonents) throws Exception {
 
 		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection.prepareStatement(INSERT_QUERY,
@@ -50,7 +50,7 @@ public class AbonentsDAO {
 		}
 	}
 
-	public void updateAbonents(Abonents abonents) throws Exception {
+	public void updateAbonent(int id, Abonents abonents) throws Exception {
 		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);
 
@@ -63,6 +63,7 @@ public class AbonentsDAO {
 			statement.setString(6, abonents.getNameLocality());
 			statement.setString(7, abonents.getAddress());
 			statement.setString(8, abonents.getTelephone());
+			statement.setInt(9,id);
 
 			statement.executeUpdate();
 		} finally {

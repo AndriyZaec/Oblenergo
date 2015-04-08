@@ -11,7 +11,7 @@ import net.ukr.ifkep.oblenergo.domain.Payments;
 
 public class PaymentDAO {
 	
-	private static final String INSERT_QUERY = "insert into oblenergo.`оплата` "
+	private static final String INSERT_QUERY = "insert into oblenergo.`оплата`"
 			+ "(`Дата оплати`, `Дата останньої оплати`, `Поточний показник лічильника`, `Останній показник лічильника`, "
 			+ "`Ліміт споживання`,`Перевикористання ліміту`"
 			+ "`Борг`,`Сума до оплати`,`Платник`) values ('?', '?', '?', '?', '?','?','?','?',?)";

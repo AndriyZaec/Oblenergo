@@ -5,19 +5,19 @@ import net.ukr.ifkep.oblenergo.domain.Abonents;
 public class test {
 
 	public static void main(String[] args) throws Exception {
-		AbonentsDAO dao = new AbonentsDAO();
 		Abonents abn = new Abonents();
-		
+		AbonentsDAO dao = new AbonentsDAO();
+			
 		abn.setSurname("Ляшеник");
 		abn.setName("Віктор");
-		abn.setBirth("04.09.1996");
+		abn.setBirth("04-09-1996");
 		abn.setSex("ч");
 		abn.setTypeLocality("місто");
 		abn.setNameLocality("Івано-Франківськ");
-		abn.setAddress("Вороного 4/8");
+		abn.setAddress("Симоненка 2/19");
 		abn.setTelephone("0664463614");
 		
-		dao.insertAbonent(abn);
+		dao.updateAbonent(2,abn);
 	}
 
 }
