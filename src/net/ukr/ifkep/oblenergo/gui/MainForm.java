@@ -21,7 +21,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-import net.ukr.ifkep.course_project.gui.GroupsTableModel;
+import net.ukr.ifkep.oblenergo.gui.AbonentsTableModel;
 import net.ukr.ifkep.oblenergo.dao.AbonentsDAO;
 import net.ukr.ifkep.oblenergo.domain.Abonents;
 
@@ -46,9 +46,9 @@ public class MainForm extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addGroup) {
-			addGroup();
+			addAbonent();
 		} else if (e.getSource() == updateGroup) {
-			updateGroup();
+			updateAbonent();
 		} else if (e.getSource() == removeGroup) {
 			removeGroup();
 		} else if (e.getSource() == printGroup) {
@@ -72,9 +72,9 @@ public class MainForm extends JFrame implements ActionListener {
 		Font fontMenu = new Font(Font.MONOSPACED, Font.PLAIN, 14);
 		JMenuBar MenuBar = new JMenuBar();
 
-		JMenu mFile = new JMenu("Файл");
-		JMenu mInform = new JMenu("Інформація");
-		JMenu mAbout = new JMenu("Про програму");
+		JMenu mFile = new JMenu("пїЅпїЅпїЅпїЅ");
+		JMenu mInform = new JMenu("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+		JMenu mAbout = new JMenu("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 		// MenuBar.add(Box.createHorizontalGlue());
 		mFile.setFont(fontMenu);
 		mInform.setFont(fontMenu);
@@ -82,8 +82,8 @@ public class MainForm extends JFrame implements ActionListener {
 		MenuBar.setBackground(colorMenu);
 
 		ImageIcon icon = new ImageIcon("img/new.gif");
-		addGroup = new JMenuItem("Додати групу", icon);
-		addGroup.setToolTipText("Добавити новий запис до бази");
+		addGroup = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", icon);
+		addGroup.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ");
 		addGroup.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.CTRL_MASK));
 		addGroup.setFont(fontMenu);
@@ -91,8 +91,8 @@ public class MainForm extends JFrame implements ActionListener {
 		mFile.add(addGroup);
 
 		ImageIcon icon3 = new ImageIcon("img/update.gif");
-		updateGroup = new JMenuItem("Внести зміни", icon3);
-		updateGroup.setToolTipText("Внести зміни у вже створений запис");
+		updateGroup = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ", icon3);
+		updateGroup.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
 		updateGroup.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
 				ActionEvent.CTRL_MASK));
 		updateGroup.setFont(fontMenu);
@@ -100,8 +100,8 @@ public class MainForm extends JFrame implements ActionListener {
 		mFile.add(updateGroup);
 
 		ImageIcon icon2 = new ImageIcon("img/remote.gif");
-		removeGroup = new JMenuItem("Видалити групу", icon2);
-		removeGroup.setToolTipText("Видалити запис у базі");
+		removeGroup = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", icon2);
+		removeGroup.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ");
 		removeGroup.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
 				ActionEvent.SHIFT_MASK));
 		removeGroup.setFont(fontMenu);
@@ -111,8 +111,8 @@ public class MainForm extends JFrame implements ActionListener {
 		mFile.addSeparator();
 
 		ImageIcon icon7 = new ImageIcon("img/print.gif");
-		printGroup = new JMenuItem("Вивести на друк", icon7);
-		printGroup.setToolTipText("Роздрукувати інформацію з таблиці");
+		printGroup = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ", icon7);
+		printGroup.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 		printGroup.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
 				ActionEvent.CTRL_MASK));
 		printGroup.setFont(fontMenu);
@@ -122,9 +122,9 @@ public class MainForm extends JFrame implements ActionListener {
 		mFile.addSeparator();
 
 		ImageIcon icon6 = new ImageIcon("img/openstudent.gif");
-		openStudent = new JMenuItem("Студенти групи", icon6);
+		openStudent = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", icon6);
 		openStudent
-				.setToolTipText("Одержати інформацію про студентів обраної групи");
+				.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
 		openStudent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				ActionEvent.CTRL_MASK));
 		openStudent.setFont(fontMenu);
@@ -134,8 +134,8 @@ public class MainForm extends JFrame implements ActionListener {
 		mInform.addSeparator();
 
 		ImageIcon icon5 = new ImageIcon("img/openteacher.gif");
-		openTeacher = new JMenuItem("Викладачі", icon5);
-		openTeacher.setToolTipText("Одержати інформацію про викладачів групи");
+		openTeacher = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", icon5);
+		openTeacher.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
 		openTeacher.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
 				ActionEvent.CTRL_MASK));
 		openTeacher.setFont(fontMenu);
@@ -143,8 +143,8 @@ public class MainForm extends JFrame implements ActionListener {
 		mInform.add(openTeacher);
 
 		ImageIcon icon4 = new ImageIcon("img/onclose.gif");
-		onClose = new JMenuItem("Закрити програму", icon4);
-		onClose.setToolTipText("Завершити роботу з програмою");
+		onClose = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", icon4);
+		onClose.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 		onClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
 				ActionEvent.ALT_MASK));
 		onClose.setFont(fontMenu);
@@ -160,12 +160,12 @@ public class MainForm extends JFrame implements ActionListener {
 
 	public MainForm() {
 		super();
-		setTitle("Навчальні групи Коледжу електронних приладів");
+		setTitle("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
 		createMenu();
 
 		ImageIcon kmNewicon = new ImageIcon("img/new.gif");
-		JMenuItem cmdKmNew = new JMenuItem("Новий запис", kmNewicon);
+		JMenuItem cmdKmNew = new JMenuItem("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", kmNewicon);
 		cmdKmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.CTRL_MASK));
 		cmdKmNew.addActionListener(this);
@@ -173,12 +173,12 @@ public class MainForm extends JFrame implements ActionListener {
 
 		cmdKmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addGroup();
+				addAbonent();
 			}
 		});
 
 		ImageIcon kmUpdateicon = new ImageIcon("img/update.gif");
-		JMenuItem cmdKmUpdate = new JMenuItem("Редагувати запис", kmUpdateicon);
+		JMenuItem cmdKmUpdate = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", kmUpdateicon);
 		cmdKmUpdate.addActionListener(this);
 		cmdKmUpdate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
 				ActionEvent.CTRL_MASK));
@@ -186,11 +186,11 @@ public class MainForm extends JFrame implements ActionListener {
 
 		cmdKmUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateGroup();
+				updateAbonent();
 			}
 		});
 		ImageIcon kmRemoveicon = new ImageIcon("img/remote.gif");
-		JMenuItem cmdKmRemove = new JMenuItem("Видалити запис", kmRemoveicon);
+		JMenuItem cmdKmRemove = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", kmRemoveicon);
 		cmdKmRemove.addActionListener(this);
 		cmdKmRemove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
 				ActionEvent.SHIFT_MASK));
@@ -205,7 +205,7 @@ public class MainForm extends JFrame implements ActionListener {
 		popupMenu.addSeparator();
 
 		ImageIcon kmStudenticon = new ImageIcon("img/openstudent.gif");
-		JMenuItem cmdKmStudent = new JMenuItem("Студенти групи", kmStudenticon);
+		JMenuItem cmdKmStudent = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", kmStudenticon);
 		cmdKmStudent.addActionListener(this);
 		cmdKmStudent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				ActionEvent.CTRL_MASK));
@@ -228,27 +228,27 @@ public class MainForm extends JFrame implements ActionListener {
 		tools.setBackground(ColorBar);
 
 		bnew = new JButton(new ImageIcon("img/new.gif"));
-		bnew.setToolTipText("Новий запис");
+		bnew.setToolTipText("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
 		tools.add(bnew);
 
 		bnew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addGroup();
+				addAbonent();
 			}
 		});
 
 		bupdate = new JButton(new ImageIcon("img/update.gif"));
-		bupdate.setToolTipText("Редагувати запис");
+		bupdate.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
 		tools.add(bupdate);
 
 		bupdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateGroup();
+				updateAbonent();
 			}
 		});
 
 		bremove = new JButton(new ImageIcon("img/remote.gif"));
-		bremove.setToolTipText("Видалити запис");
+		bremove.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
 		tools.add(bremove);
 
 		bremove.addActionListener(new ActionListener() {
@@ -257,7 +257,7 @@ public class MainForm extends JFrame implements ActionListener {
 			}
 		});
 		bprint = new JButton(new ImageIcon("img/print.gif"));
-		bprint.setToolTipText("Роздрукувати інформацію");
+		bprint.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 		tools.add(bprint);
 
 		bprint.addActionListener(new ActionListener() {
@@ -267,7 +267,7 @@ public class MainForm extends JFrame implements ActionListener {
 		});
 
 		bstudent = new JButton(new ImageIcon("img/openstudent.gif"));
-		bstudent.setToolTipText("Студенти групи");
+		bstudent.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
 		tools.add(bstudent);
 
 		bstudent.addActionListener(new ActionListener() {
@@ -283,7 +283,7 @@ public class MainForm extends JFrame implements ActionListener {
 
 
 		bclose = new JButton(new ImageIcon("img/onclose.gif"));
-		bclose.setToolTipText("Закрити програму");
+		bclose.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 		tools.add(bclose);
 
 		bclose.addActionListener(new ActionListener() {
@@ -292,12 +292,12 @@ public class MainForm extends JFrame implements ActionListener {
 			}
 		});
 
-		cmdClose = new JButton("Закрити");
-		cmdAddAbonent = new JButton("Додати");
-		cmdUpdateAbonent = new JButton("Редагувати");
-		cmdDeleteAbonent = new JButton("Видалити");
-		cmdOpenPayments = new JButton("Оплата");
-		cmdPrintAbonent = new JButton("Вивести на друк");
+		cmdClose = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+		cmdAddAbonent = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅ");
+		cmdUpdateAbonent = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+		cmdDeleteAbonent = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+		cmdOpenPayments = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅ");
+		cmdPrintAbonent = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ");
 		jLab = new JLabel();
 
 		abn = getTableModel();
@@ -332,7 +332,7 @@ public class MainForm extends JFrame implements ActionListener {
 		commandsPanel.add(cmdOpenPayments);
 		commandsPanel.add(cmdClose);
 		Border northBorder = BorderFactory
-				.createTitledBorder("Командна панель");
+				.createTitledBorder("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 		commandsPanel.setBorder(northBorder);
 		commandsPanel.setOpaque(false);
 		mainPanel.add(commandsPanel);
@@ -358,13 +358,13 @@ public class MainForm extends JFrame implements ActionListener {
 
 		cmdAddAbonent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addGroup();
+				addAbonent();
 			}
 		});
 
 		cmdUpdateAbonent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateGroup();
+				updateAbonent();
 			}
 		});
 
@@ -423,19 +423,19 @@ public class MainForm extends JFrame implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this,
-					"Помилка при заповненні таблиці груп: " + e.getMessage());
+					"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ: " + e.getMessage());
 		}
 		return new AbonentsTableModel(new ArrayList<Abonents>(0));
 	}
 
 	private void printGroup() {
 		try {
-			MessageFormat headerFormat = new MessageFormat("Сторінка {0}");
+			MessageFormat headerFormat = new MessageFormat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {0}");
 			MessageFormat footerFormat = new MessageFormat("- {0} -");
 			abonentsTable.print(JTable.PrintMode.FIT_WIDTH, headerFormat,
 					footerFormat);
 		} catch (PrinterException pe) {
-			System.err.println("Неможливо роздрукувати документ по причині: "
+			System.err.println("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: "
 					+ pe.getMessage());
 		}
 	}
@@ -448,15 +448,15 @@ public class MainForm extends JFrame implements ActionListener {
 		Integer id = Integer.parseInt((String) (abonentsTable.getValueAt(index, 0)));
 		AbonentsDAO dao = new AbonentsDAO();
 		Abonents abonent = dao.findById(id);
-		AbonentsPaymentForm groupStudentForm = new AbonentsPaymentForm();
-		groupStudentForm.setVisible(true);
+		AbonentsPaymentForm AbonentsPaymentForm = new AbonentsPaymentForm();
+		AbonentsPaymentForm.setVisible(true);
 	}
 
 	private void onClose() {
 		dispose();
 	}
 
-	private void addGroup() {
+	private void addAbonent() {
 		newAbonent.setAbonent(new Abonents());
 		newAbonent.setVisible(true);
 		if (newAbonent.getAbonent().getId() != null) {
@@ -464,34 +464,33 @@ public class MainForm extends JFrame implements ActionListener {
 		}
 	}
 
-	private void updateGroup() {
-		int index = groupsTable.getSelectedRow();
+	private void updateAbonent() {
+		int index = abonentsTable.getSelectedRow();
 		if (index == -1)
 			return;
 
-		Group group = groupsTableModel.getRowGroup(index);
-		if (group != null) {
-			newGroup.setGroup(group);
-			newGroup.setVisible(true);
-			groupsTableModel.refreshUpdatedTable();
+		Abonents abonent = abn.getRowAbonent(index);
+		if (abonent != null) {
+			newAbonent.setAbonent(abonent);
+			abn.refreshUpdatedTable();
 		}
 	}
 
 	private void removeGroup() {
 		if (JOptionPane.showConfirmDialog(MainForm.this,
-				"Ви хочете видалити інформацію про навчальну групу?",
-				"Видалення даних про групу", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			int index = groupsTable.getSelectedRow();
+				"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ?",
+				"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			int index = abonentsTable.getSelectedRow();
 			if (index == -1)
 				return;
 
 			try {
-				Group g = groupsTableModel.getRowGroup(index);
-				if (g != null) {
+				Abonents abonent = abn.getRowAbonent(index);
+				if (abonent != null) {
 
-					GroupDao dao = new GroupDao();
-					dao.deleteGroup(g.getId());
-					groupsTableModel.removeRow(index);
+					AbonentsDAO dao = new AbonentsDAO();
+					dao.deleteGroup(abonent.getId());
+					abn.removeRow(index);
 				}
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(MainForm.this, e.getMessage());

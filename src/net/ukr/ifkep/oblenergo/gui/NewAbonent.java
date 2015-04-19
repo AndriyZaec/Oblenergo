@@ -17,9 +17,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import net.ukr.ifkep.oblenergo.gui.MainFonClass;
 import net.ukr.ifkep.oblenergo.dao.AbonentsDAO;
 import net.ukr.ifkep.oblenergo.domain.Abonents;
-import net.ukr.ifkep.oblenergo.gui.MainFonClass;
 
 public class NewAbonent extends JDialog{
 	private static final long serialVersionUID = 1L;

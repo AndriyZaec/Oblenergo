@@ -1,4 +1,4 @@
-package net.ukr.ifkep.oblenergo.gui;
+package net.ukr.ifkep.course_project.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

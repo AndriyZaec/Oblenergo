@@ -24,7 +24,7 @@ public class AbonentsTableModel extends AbstractTableModel {
 		fireTableRowsInserted(0,abonents.size());
 	}
 
-	public Abonents getRowGroup(int rowIndex) {
+	public Abonents getRowAbonent(int rowIndex) {
 		return abonents.get(rowIndex);
 	}
 
