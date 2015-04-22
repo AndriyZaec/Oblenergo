@@ -9,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
 public class AbonentsTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = -2677658636846257452L;
 
-	private String[] columns = new String[] { "Особовий рахунок", "Прізвище",
+	private String[] columns = new String[] { "Особовий рахунок", "Прізвище","Ім'я",
 			"Дата Народження", "Стать", "Тип населеного пункту", "Назва населеного пункту",
 			"Адреса","Телефон" };
 

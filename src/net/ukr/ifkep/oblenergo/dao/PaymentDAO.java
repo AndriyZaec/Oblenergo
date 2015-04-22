@@ -26,6 +26,9 @@ public class PaymentDAO {
 	private static final String SELECT_ALL_QUERY = "select   `id`, `Дата оплати`, ``Дата останньої оплати``, `Поточний показник лічильника`, `Останній показник лічильника`,"
 			+ "`Ліміт споживання`,	`Перевикористання ліміту`,	`Борг`,`Сума до оплати`,`Платник` "
 			+ "from oblenergo.`оплата` ";
+	private static final String SELECT_BY_ABONENT_QUERY = "select   `id`, `Дата оплати`, `Дата останньої оплати`, `Поточний показник лічильника`, `Останній показник лічильника`,"
+			+ "`Ліміт споживання`,	`Перевикористання ліміту`,	`Борг`,`Сума до оплати`,`Платник` "
+			+ "from oblenergo.`оплата` where `Платник` = ?";
 	
 
 	public int insertPayment(Payments payment) throws Exception {
@@ -43,7 +46,7 @@ public class PaymentDAO {
 			statement.setFloat(6, payment.getExcessLimit());
 			statement.setDouble(7, payment.getDebt());
 			statement.setDouble(8, payment.getPrice());
-			statement.setString(9, payment.getPayer());
+			statement.setInt(9, payment.getPayer());
 			
 			statement.executeUpdate();
 
@@ -66,7 +69,7 @@ public class PaymentDAO {
 			statement.setFloat(6, payment.getExcessLimit());
 			statement.setDouble(7, payment.getDebt());
 			statement.setDouble(8, payment.getPrice());
-			statement.setString(9, payment.getPayer());
+			statement.setInt(9, payment.getPayer());
 
 			statement.executeUpdate();
 		} finally {
@@ -74,7 +77,7 @@ public class PaymentDAO {
 		}
 	}
 
-	public void deleteGroup(int Id) throws Exception {
+	public void deletePayment(int Id) throws Exception {
 		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection.prepareStatement(DELETE_QUERY);
 
@@ -118,6 +121,23 @@ public class PaymentDAO {
 			AccessUtil.close(connection);
 		}
 	}
+	public List<Payments> findByAbonent(int abonentId) throws Exception {
+		Connection connection = AccessUtil.createConnection();
+		PreparedStatement statement = connection
+				.prepareStatement(SELECT_BY_ABONENT_QUERY);
+
+		try {
+			statement.setInt(1, abonentId);
+			ResultSet rs = statement.executeQuery();
+			List<Payments> result = new ArrayList<Payments>();
+			while (rs.next()) {
+				result.add(getPaymentFromRow(rs));
+			}
+			return result;
+		} finally {
+			AccessUtil.close(connection);
+		}
+	}
 
 	private static Payments getPaymentFromRow(ResultSet rs) throws Exception {
 		Payments Payment = new Payments();
@@ -131,7 +151,7 @@ public class PaymentDAO {
 		Payment.setExcessLimit(rs.getFloat(7));
 		Payment.setDebt(rs.getDouble(8));
 		Payment.setPrice(rs.getDouble(9));
-		Payment.setPayer(rs.getString(9));
+		Payment.setPayer(rs.getInt(9));
 
 		return Payment;
 	}

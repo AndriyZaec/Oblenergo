@@ -1,4 +1,4 @@
-package net.ukr.ifkep.course_project.gui;
+package net.ukr.ifkep.oblenergo.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,37 +27,37 @@ import net.ukr.ifkep.oblenergo.domain.Payments;
 public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 	private JButton cmdClose;
-	private JButton cmdAddStudent;
-	private JButton cmdUpdateStudent;
+	private JButton cmdaddPayment;
+	private JButton cmdupdatePayment;
 	private JButton cmdDeleteStudent;
-	private JButton cmdPrintStudent;
+	private JButton cmdprintPayment;
 	private JTable studentsTable;
 
-	private NewStudent newStudent = new NewStudent();
+	private NewPayment newPay = new NewPayment();
 	JPopupMenu popupMenu = new JPopupMenu();
 
 	JButton bnew, bupdate, bremove, bprint, bclose, cmdKmNew, cmdKmUpdate,
 			cmdKmRemove, cmdKmPrint, cmdKmClose;
 
-	private StudentsTableModel studentsTableModel;
+	private PaymentsTableModel  ptm;
 
-	private Group groups;
+	private Abonents abonent;
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == addStudent) {
-			addStudent();
-		} else if (e.getSource() == updateStudent) {
-			updateStudent();
-		} else if (e.getSource() == removeStudent) {
-			removeStudent();
-		} else if (e.getSource() == printStudent) {
-			printStudent();
+		if (e.getSource() == addPayment) {
+			addPayment();
+		} else if (e.getSource() == updatePayment) {
+			updatePayment();
+		} else if (e.getSource() == removePayment) {
+			removePayment();
+		} else if (e.getSource() == printPayment) {
+			printPayment();
 		} else if (e.getSource() == onClose) {
 			onClose();
 		}
 	}
 
-	JMenuItem addStudent, updateStudent, removeStudent, printStudent, onClose;
+	JMenuItem addPayment, updatePayment, removePayment, printPayment, onClose;
 
 	void createMenu() {
 		Color colorMenu = (Color.ORANGE);
@@ -69,42 +69,42 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 		MenuBar.setBackground(colorMenu);
 
 		ImageIcon icon = new ImageIcon("img/new.gif");
-		addStudent = new JMenuItem("Додати студента", icon);
-		addStudent.setToolTipText("Добавити новий запис до бази");
-		addStudent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+		addPayment = new JMenuItem("Додати студента", icon);
+		addPayment.setToolTipText("Добавити новий запис до бази");
+		addPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.CTRL_MASK));
-		addStudent.setFont(fontMenu);
-		addStudent.addActionListener(this);
-		mFile.add(addStudent);
+		addPayment.setFont(fontMenu);
+		addPayment.addActionListener(this);
+		mFile.add(addPayment);
 
 		ImageIcon icon3 = new ImageIcon("img/update.gif");
-		updateStudent = new JMenuItem("Внести зміни", icon3);
-		updateStudent.setToolTipText("Внести зміни у вже створений запис");
-		updateStudent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
+		updatePayment = new JMenuItem("Внести зміни", icon3);
+		updatePayment.setToolTipText("Внести зміни у вже створений запис");
+		updatePayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
 				ActionEvent.CTRL_MASK));
-		updateStudent.setFont(fontMenu);
-		updateStudent.addActionListener(this);
-		mFile.add(updateStudent);
+		updatePayment.setFont(fontMenu);
+		updatePayment.addActionListener(this);
+		mFile.add(updatePayment);
 
 		ImageIcon icon2 = new ImageIcon("img/remote.gif");
-		removeStudent = new JMenuItem("Видалити студента", icon2);
-		removeStudent.setToolTipText("Видалити запис у базі");
-		removeStudent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
+		removePayment = new JMenuItem("Видалити студента", icon2);
+		removePayment.setToolTipText("Видалити запис у базі");
+		removePayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
 				ActionEvent.SHIFT_MASK));
-		removeStudent.setFont(fontMenu);
-		removeStudent.addActionListener(this);
-		mFile.add(removeStudent);
+		removePayment.setFont(fontMenu);
+		removePayment.addActionListener(this);
+		mFile.add(removePayment);
 
 		mFile.addSeparator();
 
 		ImageIcon icon7 = new ImageIcon("img/print.gif");
-		printStudent = new JMenuItem("Вивести на друк", icon7);
-		printStudent.setToolTipText("Роздрукувати інформацію з таблиці");
-		printStudent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
+		printPayment = new JMenuItem("Вивести на друк", icon7);
+		printPayment.setToolTipText("Роздрукувати інформацію з таблиці");
+		printPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
 				ActionEvent.CTRL_MASK));
-		printStudent.setFont(fontMenu);
-		printStudent.addActionListener(this);
-		mFile.add(printStudent);
+		printPayment.setFont(fontMenu);
+		printPayment.addActionListener(this);
+		mFile.add(printPayment);
 
 		mFile.addSeparator();
 
@@ -122,9 +122,9 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 	}
 
-	public GroupStudentForm(Group g) throws IOException {
-		this.groups = g;
-		setTitle("Студенти групи  " + g.getGroupName());
+	public AbonentsPaymentForm(Abonents a) throws IOException {
+		this.abonent = a;
+		setTitle("Оплата абонента  " + a.getSurname()+" "+a.getName());
 
 		createMenu();
 
@@ -137,7 +137,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 		cmdKmNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addStudent();
+				addPayment();
 			}
 		});
 
@@ -150,7 +150,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 		cmdKmUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateStudent();
+				updatePayment();
 			}
 		});
 		popupMenu.addSeparator();
@@ -163,7 +163,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 		cmdKmRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeStudent();
+				removePayment();
 			}
 		});
 
@@ -177,7 +177,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 		bnew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addStudent();
+				addPayment();
 			}
 		});
 
@@ -187,7 +187,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 		bupdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateStudent();
+				updatePayment();
 			}
 		});
 
@@ -197,7 +197,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 		bremove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeStudent();
+				removePayment();
 			}
 		});
 		bprint = new JButton(new ImageIcon("img/print.gif"));
@@ -206,7 +206,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 		bprint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				printStudent();
+				printPayment();
 			}
 		});
 
@@ -221,12 +221,12 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 		});
 
 		cmdClose = new JButton("Закрити");
-		cmdAddStudent = new JButton("Додати");
-		cmdUpdateStudent = new JButton("Редагувати");
+		cmdaddPayment = new JButton("Додати");
+		cmdupdatePayment = new JButton("Редагувати");
 		cmdDeleteStudent = new JButton("Видалити");
-		cmdPrintStudent = new JButton("Вивести на друк");
-		studentsTableModel = getTableModel(g);
-		studentsTable = new JTable(studentsTableModel);
+		cmdprintPayment = new JButton("Вивести на друк");
+		ptm = getTableModel(a);
+		studentsTable = new JTable(ptm);
 		studentsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		studentsTable
 				.setPreferredScrollableViewportSize(new Dimension(920, 180));
@@ -246,10 +246,10 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 		MainFonClass mainPanel = new MainFonClass();
 		mainPanel.add(scrollPane);
 		JPanel commandsPanel = new JPanel(new FlowLayout());
-		commandsPanel.add(cmdAddStudent);
-		commandsPanel.add(cmdUpdateStudent);
+		commandsPanel.add(cmdaddPayment);
+		commandsPanel.add(cmdupdatePayment);
 		commandsPanel.add(cmdDeleteStudent);
-		commandsPanel.add(cmdPrintStudent);
+		commandsPanel.add(cmdprintPayment);
 		commandsPanel.add(cmdClose);
 		commandsPanel.setOpaque(false);
 		mainPanel.add(commandsPanel);
@@ -272,26 +272,26 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 			}
 		});
 
-		cmdAddStudent.addActionListener(new ActionListener() {
+		cmdaddPayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addStudent();
+				addPayment();
 			}
 		});
 
-		cmdUpdateStudent.addActionListener(new ActionListener() {
+		cmdupdatePayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateStudent();
+				updatePayment();
 			}
 		});
 
 		cmdDeleteStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeStudent();
+				removePayment();
 			}
 		});
-		cmdPrintStudent.addActionListener(new ActionListener() {
+		cmdprintPayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				printStudent();
+				printPayment();
 			}
 		});
 		cmdClose.addActionListener(new ActionListener() {
@@ -315,51 +315,51 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 	}
 
-	private StudentsTableModel getTableModel(Group g) {
+	private PaymentsTableModel getTableModel(Abonents a) {
 		try {
-			StudentDao dao = new StudentDao();
-			final List<Student> students = dao.findByGroup(g.getId());
+			PaymentDAO dao = new PaymentDAO();
+			final List<Payments> payments = dao.findByAbonent(a.getId());
 
-			return new StudentsTableModel(students);
+			return new PaymentsTableModel(payments);
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(
 					this,
-					"Помилка при заповненні таблиці студентів: "
+					"Помилка при заповненні таблиці оплати: "
 							+ e.getMessage());
 		}
-		return new StudentsTableModel(new ArrayList<Student>(0));
+		return new PaymentsTableModel(new ArrayList<Payments>(0));
 	}
 
 	private void onClose() {
 		dispose();
 	}
 
-	private void addStudent() {
-		Student student = new Student();
-		student.setGroupId(this.groups.getId());
-		newStudent.setStudent(student);
-		newStudent.setVisible(true);
-		if (newStudent.getStudent().getId() != null) {
-			studentsTableModel.addStudent(newStudent.getStudent());
-		}
+	private void addPayment() {
+//		Payments payment = new Payments();
+//		payment.setPayer(this.abonent.getId());
+//		newStudent.setStudent(student);
+//		newStudent.setVisible(true);
+//		if (newStudent.getStudent().getId() != null) {
+//			studentsTableModel.addPayment(newStudent.getStudent());
+//		}
 	}
 
-	private void updateStudent() {
+	private void updatePayment() {
 		int index = studentsTable.getSelectedRow();
 		if (index == -1)
 			return;
 
-		Student student = studentsTableModel.getRowStudent(index);
-		if (student != null) {
-			newStudent.setStudent(student);
-			newStudent.setVisible(true);
-			studentsTableModel.refreshUpdatedTable();
+		Payments pay = ptm.getRowPayments(index);
+		if (pay != null) {
+//			newStudent.setStudent(student);
+//			newStudent.setVisible(true);
+//			studentsTableModel.refreshUpdatedTable();
 		}
 	}
 
-	private void removeStudent() {
-		if (JOptionPane.showConfirmDialog(GroupStudentForm.this,
+	private void removePayment() {
+		if (JOptionPane.showConfirmDialog(AbonentsPaymentForm.this,
 				"Ви хочете видалити інформацію про студента?",
 				"Видалення запису про студента", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			int index = studentsTable.getSelectedRow();
@@ -367,20 +367,20 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 				return;
 
 			try {
-				Student g = studentsTableModel.getRowStudent(index);
-				if (g != null) {
-					StudentDao dao = new StudentDao();
-					dao.deleteStudent(g.getId());
-					studentsTableModel.removeRow(index);
+				Payments pay = ptm.getRowPayments(index);
+				if (pay != null) {
+					PaymentDAO dao = new PaymentDAO();
+					dao.deletePayment(pay.getId());
+					ptm.removeRow(index);
 				}
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(GroupStudentForm.this,
+				JOptionPane.showMessageDialog(AbonentsPaymentForm.this,
 						e.getMessage());
 			}
 		}
 	}
 
-	private void printStudent() {
+	private void printPayment() {
 		try {
 			MessageFormat headerFormat = new MessageFormat("Сторінка {0}");
 			MessageFormat footerFormat = new MessageFormat("- {0} -");

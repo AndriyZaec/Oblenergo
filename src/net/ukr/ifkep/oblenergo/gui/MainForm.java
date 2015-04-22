@@ -35,6 +35,7 @@ public class MainForm extends JFrame implements ActionListener {
 	private JLabel jLab;
 	private JTable abonentsTable;
 	
+	
 	private NewAbonent newAbonent = new NewAbonent();
 	JPopupMenu popupMenu = new JPopupMenu();
 	
@@ -45,15 +46,15 @@ public class MainForm extends JFrame implements ActionListener {
 	private AbonentsTableModel abn;
 	
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == addGroup) {
+		if (e.getSource() == addAbonent) {
 			addAbonent();
-		} else if (e.getSource() == updateGroup) {
+		} else if (e.getSource() == updateAbonent) {
 			updateAbonent();
-		} else if (e.getSource() == removeGroup) {
-			removeGroup();
-		} else if (e.getSource() == printGroup) {
-			printGroup();
-		} else if (e.getSource() == openStudent) {
+		} else if (e.getSource() == removeAbonent) {
+			removeAbonent();
+		} else if (e.getSource() == printAbonent) {
+			printAbonent();
+		} else if (e.getSource() == openPayment) {
 			try {
 				openPayments();
 			} catch (Exception e1) {
@@ -64,7 +65,7 @@ public class MainForm extends JFrame implements ActionListener {
 		}
 	}
 
-	JMenuItem addGroup, updateGroup, removeGroup, printGroup, openStudent,
+	JMenuItem addAbonent, updateAbonent, removeAbonent, printAbonent, openPayment,
 			openTeacher, onClose;
 
 	void createMenu() {
@@ -72,79 +73,70 @@ public class MainForm extends JFrame implements ActionListener {
 		Font fontMenu = new Font(Font.MONOSPACED, Font.PLAIN, 14);
 		JMenuBar MenuBar = new JMenuBar();
 
-		JMenu mFile = new JMenu("пїЅпїЅпїЅпїЅ");
-		JMenu mInform = new JMenu("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
-		JMenu mAbout = new JMenu("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
-		// MenuBar.add(Box.createHorizontalGlue());
+		JMenu mFile = new JMenu("Файл");
+		JMenu mInform = new JMenu("Інформація");
+		JMenu mAbout = new JMenu("Про нас");
+		//MenuBar.add(Box.createHorizontalGlue());
 		mFile.setFont(fontMenu);
 		mInform.setFont(fontMenu);
 		mAbout.setFont(fontMenu);
 		MenuBar.setBackground(colorMenu);
 
 		ImageIcon icon = new ImageIcon("img/new.gif");
-		addGroup = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", icon);
-		addGroup.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ");
-		addGroup.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+		addAbonent = new JMenuItem("Додати нового абонента", icon);
+		addAbonent.setToolTipText("Форма для внесення інформацію про нового абонента");
+		addAbonent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.CTRL_MASK));
-		addGroup.setFont(fontMenu);
-		addGroup.addActionListener(this);
-		mFile.add(addGroup);
+		addAbonent.setFont(fontMenu);
+		addAbonent.addActionListener(this);
+		mFile.add(addAbonent);
 
 		ImageIcon icon3 = new ImageIcon("img/update.gif");
-		updateGroup = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ", icon3);
-		updateGroup.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
-		updateGroup.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
+		updateAbonent = new JMenuItem("Редагувати", icon3);
+		updateAbonent.setToolTipText("Редагування інформації про нового абонента");
+		updateAbonent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
 				ActionEvent.CTRL_MASK));
-		updateGroup.setFont(fontMenu);
-		updateGroup.addActionListener(this);
-		mFile.add(updateGroup);
+		updateAbonent.setFont(fontMenu);
+		updateAbonent.addActionListener(this);
+		mFile.add(updateAbonent);
 
 		ImageIcon icon2 = new ImageIcon("img/remote.gif");
-		removeGroup = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", icon2);
-		removeGroup.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ");
-		removeGroup.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
+		removeAbonent = new JMenuItem("Видалення", icon2);
+		removeAbonent.setToolTipText("Видаляє інформацію про абонента");
+		removeAbonent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
 				ActionEvent.SHIFT_MASK));
-		removeGroup.setFont(fontMenu);
-		removeGroup.addActionListener(this);
-		mFile.add(removeGroup);
+		removeAbonent.setFont(fontMenu);
+		removeAbonent.addActionListener(this);
+		mFile.add(removeAbonent);
 
 		mFile.addSeparator();
 
 		ImageIcon icon7 = new ImageIcon("img/print.gif");
-		printGroup = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ", icon7);
-		printGroup.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
-		printGroup.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
+		printAbonent = new JMenuItem("На друк", icon7);
+		printAbonent.setToolTipText("Виведення на друк інформації про абонента");
+		printAbonent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
 				ActionEvent.CTRL_MASK));
-		printGroup.setFont(fontMenu);
-		printGroup.addActionListener(this);
-		mFile.add(printGroup);
+		printAbonent.setFont(fontMenu);
+		printAbonent.addActionListener(this);
+		mFile.add(printAbonent);
 
 		mFile.addSeparator();
 
-		ImageIcon icon6 = new ImageIcon("img/openstudent.gif");
-		openStudent = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", icon6);
-		openStudent
-				.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
-		openStudent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+		ImageIcon icon6 = new ImageIcon("img/openPayment.gif");
+		openPayment = new JMenuItem("Інформація про оплату", icon6);
+		openPayment.setToolTipText("Інформація про оплату");
+		openPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				ActionEvent.CTRL_MASK));
-		openStudent.setFont(fontMenu);
-		openStudent.addActionListener(this);
-		mInform.add(openStudent);
+		openPayment.setFont(fontMenu);
+		openPayment.addActionListener(this);
+		mInform.add(openPayment);
 
 		mInform.addSeparator();
 
-		ImageIcon icon5 = new ImageIcon("img/openteacher.gif");
-		openTeacher = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", icon5);
-		openTeacher.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
-		openTeacher.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
-				ActionEvent.CTRL_MASK));
-		openTeacher.setFont(fontMenu);
-		openTeacher.addActionListener((ActionListener) this);
-		mInform.add(openTeacher);
 
 		ImageIcon icon4 = new ImageIcon("img/onclose.gif");
-		onClose = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", icon4);
-		onClose.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+		onClose = new JMenuItem("Вихід", icon4);
+		onClose.setToolTipText("Виходить та закриває програму");
 		onClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
 				ActionEvent.ALT_MASK));
 		onClose.setFont(fontMenu);
@@ -160,12 +152,12 @@ public class MainForm extends JFrame implements ActionListener {
 
 	public MainForm() {
 		super();
-		setTitle("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+		setTitle("Головна форма");
 
 		createMenu();
 
 		ImageIcon kmNewicon = new ImageIcon("img/new.gif");
-		JMenuItem cmdKmNew = new JMenuItem("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", kmNewicon);
+		JMenuItem cmdKmNew = new JMenuItem("Додати", kmNewicon);
 		cmdKmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.CTRL_MASK));
 		cmdKmNew.addActionListener(this);
@@ -178,7 +170,7 @@ public class MainForm extends JFrame implements ActionListener {
 		});
 
 		ImageIcon kmUpdateicon = new ImageIcon("img/update.gif");
-		JMenuItem cmdKmUpdate = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", kmUpdateicon);
+		JMenuItem cmdKmUpdate = new JMenuItem("Редагувати", kmUpdateicon);
 		cmdKmUpdate.addActionListener(this);
 		cmdKmUpdate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
 				ActionEvent.CTRL_MASK));
@@ -190,7 +182,7 @@ public class MainForm extends JFrame implements ActionListener {
 			}
 		});
 		ImageIcon kmRemoveicon = new ImageIcon("img/remote.gif");
-		JMenuItem cmdKmRemove = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", kmRemoveicon);
+		JMenuItem cmdKmRemove = new JMenuItem("Видалити", kmRemoveicon);
 		cmdKmRemove.addActionListener(this);
 		cmdKmRemove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
 				ActionEvent.SHIFT_MASK));
@@ -198,14 +190,14 @@ public class MainForm extends JFrame implements ActionListener {
 
 		cmdKmRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeGroup();
+				removeAbonent();
 			}
 		});
 
 		popupMenu.addSeparator();
 
-		ImageIcon kmStudenticon = new ImageIcon("img/openstudent.gif");
-		JMenuItem cmdKmStudent = new JMenuItem("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", kmStudenticon);
+		ImageIcon kmStudenticon = new ImageIcon("img/openPayment.gif");
+		JMenuItem cmdKmStudent = new JMenuItem("Відкрити інформацію про оплату", kmStudenticon);
 		cmdKmStudent.addActionListener(this);
 		cmdKmStudent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				ActionEvent.CTRL_MASK));
@@ -224,11 +216,11 @@ public class MainForm extends JFrame implements ActionListener {
 
 
 		JToolBar tools = new JToolBar();
-		Color ColorBar = Color.GRAY;
+		Color ColorBar = Color.BLUE;
 		tools.setBackground(ColorBar);
 
 		bnew = new JButton(new ImageIcon("img/new.gif"));
-		bnew.setToolTipText("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
+		bnew.setToolTipText("Додати інформацію про абонента");
 		tools.add(bnew);
 
 		bnew.addActionListener(new ActionListener() {
@@ -238,7 +230,7 @@ public class MainForm extends JFrame implements ActionListener {
 		});
 
 		bupdate = new JButton(new ImageIcon("img/update.gif"));
-		bupdate.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
+		bupdate.setToolTipText("Редагувати інформацію про абонента");
 		tools.add(bupdate);
 
 		bupdate.addActionListener(new ActionListener() {
@@ -248,26 +240,26 @@ public class MainForm extends JFrame implements ActionListener {
 		});
 
 		bremove = new JButton(new ImageIcon("img/remote.gif"));
-		bremove.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
+		bremove.setToolTipText("Видалити інформацію про абонента");
 		tools.add(bremove);
 
 		bremove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeGroup();
+				removeAbonent();
 			}
 		});
 		bprint = new JButton(new ImageIcon("img/print.gif"));
-		bprint.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+		bprint.setToolTipText("На друк");
 		tools.add(bprint);
 
 		bprint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				printGroup();
+				printAbonent();
 			}
 		});
 
-		bstudent = new JButton(new ImageIcon("img/openstudent.gif"));
-		bstudent.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
+		bstudent = new JButton(new ImageIcon("img/openPayment.gif"));
+		bstudent.setToolTipText("Відкрити оплату ");
 		tools.add(bstudent);
 
 		bstudent.addActionListener(new ActionListener() {
@@ -283,7 +275,7 @@ public class MainForm extends JFrame implements ActionListener {
 
 
 		bclose = new JButton(new ImageIcon("img/onclose.gif"));
-		bclose.setToolTipText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+		bclose.setToolTipText("Вийти");
 		tools.add(bclose);
 
 		bclose.addActionListener(new ActionListener() {
@@ -292,24 +284,26 @@ public class MainForm extends JFrame implements ActionListener {
 			}
 		});
 
-		cmdClose = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
-		cmdAddAbonent = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅ");
-		cmdUpdateAbonent = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
-		cmdDeleteAbonent = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
-		cmdOpenPayments = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅ");
-		cmdPrintAbonent = new JButton("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ");
+		cmdClose = new JButton("Закрити");
+		cmdAddAbonent = new JButton("Додати нового абонента");
+		cmdUpdateAbonent = new JButton("Редагувати інформацію про абонента");
+		cmdDeleteAbonent = new JButton("Видалити аонента");
+		cmdOpenPayments = new JButton("Відкрити оплату");
+		cmdPrintAbonent = new JButton("На друк");
 		jLab = new JLabel();
 
 		abn = getTableModel();
 		abonentsTable = new JTable(abn);
 		abonentsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		abonentsTable.setPreferredScrollableViewportSize(new Dimension(880, 180));
-		abonentsTable.getColumnModel().getColumn(0).setMinWidth(40);
-		abonentsTable.getColumnModel().getColumn(1).setMinWidth(120);
-		abonentsTable.getColumnModel().getColumn(2).setMinWidth(300);
-		abonentsTable.getColumnModel().getColumn(3).setMinWidth(100);
-		abonentsTable.getColumnModel().getColumn(4).setMinWidth(80);
-		abonentsTable.getColumnModel().getColumn(5).setMinWidth(160);
+		abonentsTable.getColumnModel().getColumn(0).setMinWidth(10);
+		abonentsTable.getColumnModel().getColumn(1).setMinWidth(60);
+		abonentsTable.getColumnModel().getColumn(2).setMinWidth(10);
+		abonentsTable.getColumnModel().getColumn(3).setMinWidth(60);
+		abonentsTable.getColumnModel().getColumn(4).setMinWidth(60);
+		abonentsTable.getColumnModel().getColumn(5).setMinWidth(60);
+		abonentsTable.getColumnModel().getColumn(6).setMinWidth(60);
+		abonentsTable.getColumnModel().getColumn(7).setMinWidth(60);
 		abonentsTable.setGridColor(Color.ORANGE);
 		abonentsTable.setRowHeight(20);
 		Font FontGrid = new Font(Font.MONOSPACED, Font.PLAIN, 14);
@@ -332,15 +326,15 @@ public class MainForm extends JFrame implements ActionListener {
 		commandsPanel.add(cmdOpenPayments);
 		commandsPanel.add(cmdClose);
 		Border northBorder = BorderFactory
-				.createTitledBorder("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
+				.createTitledBorder("Список усіх абонентів");
 		commandsPanel.setBorder(northBorder);
 		commandsPanel.setOpaque(false);
 		mainPanel.add(commandsPanel);
 
 		// setModal(false);
 		getRootPane().setDefaultButton(cmdClose);
-		setSize(900, 380);
-		setResizable(false);
+		setSize(950, 380);
+		setResizable(true);
 		getContentPane().add(tools, BorderLayout.NORTH);
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 
@@ -370,13 +364,13 @@ public class MainForm extends JFrame implements ActionListener {
 
 		cmdDeleteAbonent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeGroup();
+				removeAbonent();
 			}
 		});
 
 		cmdPrintAbonent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				printGroup();
+				printAbonent();
 			}
 		});
 
@@ -423,12 +417,12 @@ public class MainForm extends JFrame implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this,
-					"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ: " + e.getMessage());
+					"Проблеми з завантаженням таблиці: " + e.getMessage());
 		}
 		return new AbonentsTableModel(new ArrayList<Abonents>(0));
 	}
 
-	private void printGroup() {
+	private void printAbonent() {
 		try {
 			MessageFormat headerFormat = new MessageFormat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {0}");
 			MessageFormat footerFormat = new MessageFormat("- {0} -");
@@ -448,7 +442,7 @@ public class MainForm extends JFrame implements ActionListener {
 		Integer id = Integer.parseInt((String) (abonentsTable.getValueAt(index, 0)));
 		AbonentsDAO dao = new AbonentsDAO();
 		Abonents abonent = dao.findById(id);
-		AbonentsPaymentForm AbonentsPaymentForm = new AbonentsPaymentForm();
+		AbonentsPaymentForm AbonentsPaymentForm = new AbonentsPaymentForm(abonent);
 		AbonentsPaymentForm.setVisible(true);
 	}
 
@@ -476,10 +470,10 @@ public class MainForm extends JFrame implements ActionListener {
 		}
 	}
 
-	private void removeGroup() {
+	private void removeAbonent() {
 		if (JOptionPane.showConfirmDialog(MainForm.this,
-				"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ?",
-				"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				"Ви впевнені, що хочете видалити запис?",
+				"Запис видалено", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			int index = abonentsTable.getSelectedRow();
 			if (index == -1)
 				return;

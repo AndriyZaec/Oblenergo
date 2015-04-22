@@ -46,7 +46,7 @@ public class NewAbonent extends JDialog{
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JDialog.setDefaultLookAndFeelDecorated(true);
 		setTitle("Інформація нового абонента");
-		setSize(400, 270);
+		setSize(800,400);
 		setModal(true);
 		setResizable(false);
 
@@ -57,13 +57,13 @@ public class NewAbonent extends JDialog{
 		name = new JTextField(15);
 		birth = new JTextField(15);
 		sex=new JComboBox(new Object[] { "ч","ж" });
-		typeLocality=new JComboBox(new Object[] { "місто","село","смт" });
+		typeLocality=new JComboBox(new Object[] { "місто","село" });
 		nameLocality = new JTextField(30);
 		adrress=new JTextField(25);
 		tel=new JTextField(10);
 		
 		MainFonClass NewAbonentMainPanel = new MainFonClass();
-		final JPanel fieldsPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+		final JPanel fieldsPanel = new JPanel(new GridLayout(10, 2, 2, 2));
 		final JPanel fieldsPanelBorder = new JPanel(new FlowLayout(
 				FlowLayout.CENTER, 10, 10));
 		fieldsPanel.setOpaque(false);
@@ -116,7 +116,7 @@ public class NewAbonent extends JDialog{
 		c.add(NewAbonentMainPanel);
 		cmdSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//saveNewAbonent();
+				saveNewAbonent();
 			}
 		});
 
@@ -143,21 +143,31 @@ public class NewAbonent extends JDialog{
 		tel.setText(abonent.getTelephone());
 	}
 
-//	private void saveNewAbonent() {
-//		try {
-//			abonent.setSurname(surname.getText());
-//			abonent.setName(name.getText());
-//			abonent.setBirth(birth.getText());
-//			abonent.setSex(sex.getText());
-//			
-//			
-//			this.setVisible(false);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			JOptionPane.showMessageDialog(this,
-//					"Помилка при збереженні групи: " + e.getMessage());
-//		}
-//	}
+	private void saveNewAbonent() {
+		try {
+			abonent.setSurname(surname.getText());
+			abonent.setName(name.getText());
+			abonent.setBirth(birth.getText());
+			abonent.setSex(sex.getSelectedItem().toString());
+			abonent.setTypeLocality(typeLocality.getSelectedItem().toString());
+			abonent.setNameLocality(nameLocality.getText());
+			abonent.setAddress(adrress.getText());
+			abonent.setTelephone(tel.getText());
+			
+
+			if (abonent.getId() == null) {
+				int newId = new AbonentsDAO().insertAbonent(abonent);
+				abonent.setId(newId);
+			} else {
+				new AbonentsDAO().updateAbonent(abonent);
+			}
+			this.setVisible(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this,
+					"Помилка при збереженні студента: " + e.getMessage());
+		}
+	}
 
 	private void cancelSave() {
 		this.setVisible(false);

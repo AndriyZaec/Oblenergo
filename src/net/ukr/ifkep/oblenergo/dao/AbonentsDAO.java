@@ -26,7 +26,7 @@ public class AbonentsDAO {
 			+ "`Тип населеного пункту`,	`Назва населеного пункту`,	Адреса,`Номер телефону` "
 			+ "from oblenergo.`абоненти` ";
 
-	public int insertAbonent(int id,Abonents abonents) throws Exception {
+	public int insertAbonent(Abonents abonents) throws Exception {
 
 		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection.prepareStatement(INSERT_QUERY,
@@ -50,7 +50,7 @@ public class AbonentsDAO {
 		}
 	}
 
-	public void updateAbonent(int id, Abonents abonents) throws Exception {
+	public void updateAbonent(Abonents abonents) throws Exception {
 		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);
 
@@ -63,7 +63,6 @@ public class AbonentsDAO {
 			statement.setString(6, abonents.getNameLocality());
 			statement.setString(7, abonents.getAddress());
 			statement.setString(8, abonents.getTelephone());
-			statement.setInt(9,id);
 
 			statement.executeUpdate();
 		} finally {

@@ -10,7 +10,7 @@ public class Payments extends DomainType {
 	private float ExcessLimit;
 	private double Debt;
 	private double Price;
-	private String Payer;
+	private Integer Payer;
 	
 	/**
 	 * @return the paymentDate
@@ -111,14 +111,14 @@ public class Payments extends DomainType {
 	/**
 	 * @return the payer
 	 */
-	public String getPayer() {
+	public Integer getPayer() {
 		return Payer;
 	}
 	/**
-	 * @param payer the payer to set
+	 * @param integer the payer to set
 	 */
-	public void setPayer(String payer) {
-		Payer = payer;
+	public void setPayer(Integer integer) {
+		Payer = integer;
 	}
 
 	

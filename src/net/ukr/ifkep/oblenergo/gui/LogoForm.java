@@ -21,11 +21,11 @@ public class LogoForm extends JDialog {
 		setLocation(Math.round((xSize - 300) / 2),
 				Math.round((ySize - 300) / 2));
 		setUndecorated(true);
-		setSize(438, 178);
+		setSize(500, 300);
 		this.setBackground(Color.WHITE);
 		this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		JLabel pic = new JLabel();
-		pic.setIcon(new ImageIcon("img/colledg.jpg"));
+		pic.setIcon(new ImageIcon("img/oblenergo.jpg"));
 		add(pic);
 	}
 }
