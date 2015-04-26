@@ -13,11 +13,11 @@ public class PaymentDAO {
 	
 	private static final String INSERT_QUERY = "insert into oblenergo.`оплата`"
 			+ "(`Дата оплати`, `Дата останньої оплати`, `Поточний показник лічильника`, `Останній показник лічильника`, "
-			+ "`Ліміт споживання`,`Перевикористання ліміту`"
-			+ "`Борг`,`Сума до оплати`,`Платник`) values ('?', '?', '?', '?', '?','?','?','?',?)";
+			+ "`Ліміт споживання`,`Перевикористання ліміту`,"
+			+ "`Борг`,`Сума до оплати`,`Платник`) values (?, ?, ?, ?, ?, ?, ?, ? ,?)";
 	private static final String UPDATE_QUERY = "update oblenergo.`оплата` "
-			+ "set `Дата оплати` = ?,`Дата останньої оплати` = ?, `Поточний показник лічильника` = ?, `Останній показник лічильника` = ?, `Ліміт споживання` = ? "
-			+ "`Перевикористання ліміту`=?, `Борг`=?, `Сума до оплати`= ?,`Платник` = ?"
+			+ "set `Дата оплати` = ?, `Дата останньої оплати` = ?, `Поточний показник лічильника` = ?, `Останній показник лічильника` = ?, `Ліміт споживання` = ? "
+			+ "`Перевикористання ліміту`=?, `Борг`=?, `Сума до оплати`= ?, `Платник` = ? "
 			+ "where  `id` = ?";
 	private static final String DELETE_QUERY = "delete from oblenergo.`оплата` where  `id` = ?";
 	private static final String SELECT_QUERY = "select   `id`, `Дата оплати`, `Дата останньої оплати`, `Поточний показник лічильника`, `Останній показник лічильника`,"
@@ -70,6 +70,7 @@ public class PaymentDAO {
 			statement.setDouble(7, payment.getDebt());
 			statement.setDouble(8, payment.getPrice());
 			statement.setInt(9, payment.getPayer());
+			statement.setInt(10, payment.getId());
 
 			statement.executeUpdate();
 		} finally {

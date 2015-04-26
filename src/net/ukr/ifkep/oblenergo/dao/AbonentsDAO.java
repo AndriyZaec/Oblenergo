@@ -15,9 +15,9 @@ public class AbonentsDAO {
 			+ "(`Прізвище`, `Ім'я`, `Дата народження`, `Стать`, `Тип населеного пункту`,`Назва населеного пункту`,"
 			+ "`Адреса`,`Номер телефону`) " + "values( ? , ? , ? , ? , ? , ? , ? , ? )";
 	private static final String UPDATE_QUERY = "update oblenergo.`абоненти` "
-			+ "set Прізвище = ?, `Ім'я` = ?, `Дата народження` = ?, Стать = ?, `Тип населеного пункту` = ?, "
-			+ "`Назва населеного пункту`=?, Адреса=?, `Номер телефону`= ?"
-			+ "where `Особовий рахунок` = ?";
+			+ "set `Прізвище` = ?, `Ім'я` = ?, `Дата народження` = ?, `Стать` = ?, `Тип населеного пункту` = ?,"
+			+ "`Назва населеного пункту`=?, `Адреса` = ?, `Номер телефону`= ?"
+			+ " where `Особовий рахунок` = ?";
 	private static final String DELETE_QUERY = "delete from oblenergo.`абоненти` where `Особовий рахунок` = ?";
 	private static final String SELECT_QUERY = "select  `Особовий рахунок`, Прізвище, `Ім'я`, `Дата народження`, Стать,"
 			+ "`Тип населеного пункту`,	`Назва населеного пункту`,	Адреса,`Номер телефону` "
@@ -25,6 +25,13 @@ public class AbonentsDAO {
 	private static final String SELECT_ALL_QUERY = "select  `Особовий рахунок`, Прізвище, `Ім'я`, `Дата народження`, Стать,"
 			+ "`Тип населеного пункту`,	`Назва населеного пункту`,	Адреса,`Номер телефону` "
 			+ "from oblenergo.`абоненти` ";
+	private static final String SELECT_VILLEGERS = "select  `Особовий рахунок`, Прізвище, `Ім'я`, `Дата народження`, Стать,"
+			+ "`Тип населеного пункту`,	`Назва населеного пункту`,	Адреса,`Номер телефону` "
+			+ "from oblenergo.`абоненти` where  `Тип населеного пункту` = 'село'";
+	private static final String SELECT_TOWNSMANS = "select  `Особовий рахунок`, Прізвище, `Ім'я`, `Дата народження`, Стать,"
+			+ "`Тип населеного пункту`,	`Назва населеного пункту`,	Адреса,`Номер телефону` "
+			+ "from oblenergo.`абоненти` where  `Тип населеного пункту` = 'місто'";
+	
 
 	public int insertAbonent(Abonents abonents) throws Exception {
 
@@ -63,6 +70,7 @@ public class AbonentsDAO {
 			statement.setString(6, abonents.getNameLocality());
 			statement.setString(7, abonents.getAddress());
 			statement.setString(8, abonents.getTelephone());
+			statement.setInt(9, abonents.getId());
 
 			statement.executeUpdate();
 		} finally {
@@ -103,6 +111,39 @@ public class AbonentsDAO {
 		PreparedStatement statement = connection
 				.prepareStatement(SELECT_ALL_QUERY);
 
+		try {
+			ResultSet rs = statement.executeQuery();
+			List<Abonents> result = new ArrayList<Abonents>();
+			while (rs.next()) {
+				result.add(getAbonentFromRow(rs));
+			}
+			return result;
+		} finally {
+			AccessUtil.close(connection);
+		}
+	}
+	
+	public List<Abonents> findVillagers() throws Exception {
+		Connection connection = AccessUtil.createConnection();
+		PreparedStatement statement = connection
+				.prepareStatement(SELECT_VILLEGERS);
+
+		try {
+			ResultSet rs = statement.executeQuery();
+			List<Abonents> result = new ArrayList<Abonents>();
+			while (rs.next()) {
+				result.add(getAbonentFromRow(rs));
+			}
+			return result;
+		} finally {
+			AccessUtil.close(connection);
+		}
+	}
+	
+	public List<Abonents> findTownsmens() throws Exception {
+		Connection connection = AccessUtil.createConnection();
+		PreparedStatement statement = connection
+				.prepareStatement(SELECT_TOWNSMANS);
 		try {
 			ResultSet rs = statement.executeQuery();
 			List<Abonents> result = new ArrayList<Abonents>();

@@ -27,12 +27,6 @@ public class Main {
 			});
 
 	public static void main(String[] args) {
-
-		logoForm.setVisible(true);
-		timer.start();
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		JDialog.setDefaultLookAndFeelDecorated(true);
-		mainForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		try {
 			UIManager.setLookAndFeel(
 			        UIManager.getCrossPlatformLookAndFeelClassName());
@@ -49,6 +43,12 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		logoForm.setVisible(true);
+		timer.start();
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		JDialog.setDefaultLookAndFeelDecorated(true);
+		mainForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 
 	}
 

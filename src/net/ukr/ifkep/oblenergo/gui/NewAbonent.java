@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import net.ukr.ifkep.oblenergo.gui.MainFonClass;
 import net.ukr.ifkep.oblenergo.dao.AbonentsDAO;
@@ -45,6 +47,13 @@ public class NewAbonent extends JDialog{
 	public NewAbonent() {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JDialog.setDefaultLookAndFeelDecorated(true);
+		try{
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			SwingUtilities.updateComponentTreeUI(this);
+			
+		}catch(Exception e){
+			
+		}
 		setTitle("Інформація нового абонента");
 		setSize(800,400);
 		setModal(true);
@@ -62,8 +71,8 @@ public class NewAbonent extends JDialog{
 		adrress=new JTextField(25);
 		tel=new JTextField(10);
 		
-		MainFonClass NewAbonentMainPanel = new MainFonClass();
-		final JPanel fieldsPanel = new JPanel(new GridLayout(10, 2, 2, 2));
+		MainFonClass NewAbonentMainPanel = new MainFonClass("img/newupdatefon.jpg");
+		final JPanel fieldsPanel = new JPanel(new GridLayout(8, 2, 2, 2));
 		final JPanel fieldsPanelBorder = new JPanel(new FlowLayout(
 				FlowLayout.CENTER, 10, 10));
 		fieldsPanel.setOpaque(false);

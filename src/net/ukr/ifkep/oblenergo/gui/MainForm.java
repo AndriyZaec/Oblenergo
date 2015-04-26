@@ -21,29 +21,37 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+
 import net.ukr.ifkep.oblenergo.gui.AbonentsTableModel;
 import net.ukr.ifkep.oblenergo.dao.AbonentsDAO;
 import net.ukr.ifkep.oblenergo.domain.Abonents;
 
 public class MainForm extends JFrame implements ActionListener {
+	
+	private static final long serialVersionUID = 2769668573861082804L;
 	private JButton cmdClose;
 	private JButton cmdAddAbonent;
 	private JButton cmdUpdateAbonent;
 	private JButton cmdDeleteAbonent;
 	private JButton cmdOpenPayments;
 	private JButton cmdPrintAbonent;
+	private JButton cmdVillager;
+	private JButton cmdTownsman;
 	private JLabel jLab;
 	private JTable abonentsTable;
 	
 	
 	private NewAbonent newAbonent = new NewAbonent();
-	JPopupMenu popupMenu = new JPopupMenu();
+	private Villagers villagers = new Villagers();
+	private Townsmans townsmans = new Townsmans();
+	private JPopupMenu popupMenu = new JPopupMenu();
 	
 	JButton bnew, bupdate, bremove, bprint, bclose, bstudent, bteacher,
 	cmdKmNew, cmdKmUpdate, cmdKmRemove, cmdKmPrint, cmdKmStudent,
 	cmdKmTeacher, cmdKmClose;
 	
 	private AbonentsTableModel abn;
+	
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addAbonent) {
@@ -69,7 +77,7 @@ public class MainForm extends JFrame implements ActionListener {
 			openTeacher, onClose;
 
 	void createMenu() {
-		Color colorMenu = (Color.ORANGE);
+		Color colorMenu = (Color.DARK_GRAY);
 		Font fontMenu = new Font(Font.MONOSPACED, Font.PLAIN, 14);
 		JMenuBar MenuBar = new JMenuBar();
 
@@ -82,7 +90,7 @@ public class MainForm extends JFrame implements ActionListener {
 		mAbout.setFont(fontMenu);
 		MenuBar.setBackground(colorMenu);
 
-		ImageIcon icon = new ImageIcon("img/new.gif");
+		ImageIcon icon = new ImageIcon("img/add.png");
 		addAbonent = new JMenuItem("Додати нового абонента", icon);
 		addAbonent.setToolTipText("Форма для внесення інформацію про нового абонента");
 		addAbonent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
@@ -100,7 +108,7 @@ public class MainForm extends JFrame implements ActionListener {
 		updateAbonent.addActionListener(this);
 		mFile.add(updateAbonent);
 
-		ImageIcon icon2 = new ImageIcon("img/remote.gif");
+		ImageIcon icon2 = new ImageIcon("img/del.png");
 		removeAbonent = new JMenuItem("Видалення", icon2);
 		removeAbonent.setToolTipText("Видаляє інформацію про абонента");
 		removeAbonent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
@@ -125,7 +133,7 @@ public class MainForm extends JFrame implements ActionListener {
 		ImageIcon icon6 = new ImageIcon("img/openPayment.gif");
 		openPayment = new JMenuItem("Інформація про оплату", icon6);
 		openPayment.setToolTipText("Інформація про оплату");
-		openPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+		openPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
 				ActionEvent.CTRL_MASK));
 		openPayment.setFont(fontMenu);
 		openPayment.addActionListener(this);
@@ -154,9 +162,18 @@ public class MainForm extends JFrame implements ActionListener {
 		super();
 		setTitle("Головна форма");
 
+		try{
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			SwingUtilities.updateComponentTreeUI(this);
+			
+		}catch(Exception e){
+			
+		}
+		
+		
 		createMenu();
 
-		ImageIcon kmNewicon = new ImageIcon("img/new.gif");
+		ImageIcon kmNewicon = new ImageIcon("img/add.png");
 		JMenuItem cmdKmNew = new JMenuItem("Додати", kmNewicon);
 		cmdKmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.CTRL_MASK));
@@ -181,7 +198,7 @@ public class MainForm extends JFrame implements ActionListener {
 				updateAbonent();
 			}
 		});
-		ImageIcon kmRemoveicon = new ImageIcon("img/remote.gif");
+		ImageIcon kmRemoveicon = new ImageIcon("img/del.png");
 		JMenuItem cmdKmRemove = new JMenuItem("Видалити", kmRemoveicon);
 		cmdKmRemove.addActionListener(this);
 		cmdKmRemove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
@@ -216,10 +233,11 @@ public class MainForm extends JFrame implements ActionListener {
 
 
 		JToolBar tools = new JToolBar();
-		Color ColorBar = Color.BLUE;
+		Color ColorBar = Color.GRAY;
 		tools.setBackground(ColorBar);
+		tools.setFloatable(false);
 
-		bnew = new JButton(new ImageIcon("img/new.gif"));
+		bnew = new JButton(new ImageIcon("img/add.png"));
 		bnew.setToolTipText("Додати інформацію про абонента");
 		tools.add(bnew);
 
@@ -229,7 +247,7 @@ public class MainForm extends JFrame implements ActionListener {
 			}
 		});
 
-		bupdate = new JButton(new ImageIcon("img/update.gif"));
+		bupdate = new JButton(new ImageIcon("img/upd.png"));
 		bupdate.setToolTipText("Редагувати інформацію про абонента");
 		tools.add(bupdate);
 
@@ -239,7 +257,7 @@ public class MainForm extends JFrame implements ActionListener {
 			}
 		});
 
-		bremove = new JButton(new ImageIcon("img/remote.gif"));
+		bremove = new JButton(new ImageIcon("img/del.png"));
 		bremove.setToolTipText("Видалити інформацію про абонента");
 		tools.add(bremove);
 
@@ -248,7 +266,7 @@ public class MainForm extends JFrame implements ActionListener {
 				removeAbonent();
 			}
 		});
-		bprint = new JButton(new ImageIcon("img/print.gif"));
+		bprint = new JButton(new ImageIcon("img/print.png"));
 		bprint.setToolTipText("На друк");
 		tools.add(bprint);
 
@@ -258,7 +276,7 @@ public class MainForm extends JFrame implements ActionListener {
 			}
 		});
 
-		bstudent = new JButton(new ImageIcon("img/openPayment.gif"));
+		bstudent = new JButton(new ImageIcon("img/pay.png"));
 		bstudent.setToolTipText("Відкрити оплату ");
 		tools.add(bstudent);
 
@@ -274,7 +292,7 @@ public class MainForm extends JFrame implements ActionListener {
 		});
 
 
-		bclose = new JButton(new ImageIcon("img/onclose.gif"));
+		bclose = new JButton(new ImageIcon("img/exit.png"));
 		bclose.setToolTipText("Вийти");
 		tools.add(bclose);
 
@@ -285,17 +303,20 @@ public class MainForm extends JFrame implements ActionListener {
 		});
 
 		cmdClose = new JButton("Закрити");
-		cmdAddAbonent = new JButton("Додати нового абонента");
-		cmdUpdateAbonent = new JButton("Редагувати інформацію про абонента");
-		cmdDeleteAbonent = new JButton("Видалити аонента");
-		cmdOpenPayments = new JButton("Відкрити оплату");
+		cmdAddAbonent = new JButton("Додати");
+		cmdUpdateAbonent = new JButton("Редагувати");
+		cmdDeleteAbonent = new JButton("Видалити");
+		cmdOpenPayments = new JButton("Оплата");
 		cmdPrintAbonent = new JButton("На друк");
+		cmdVillager=new JButton("Абоненти з сіл");
+		cmdTownsman=new JButton("Абоненти з міст");
 		jLab = new JLabel();
 
+		
 		abn = getTableModel();
 		abonentsTable = new JTable(abn);
 		abonentsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		abonentsTable.setPreferredScrollableViewportSize(new Dimension(880, 180));
+		abonentsTable.setPreferredScrollableViewportSize(new Dimension(100, 180));
 		abonentsTable.getColumnModel().getColumn(0).setMinWidth(10);
 		abonentsTable.getColumnModel().getColumn(1).setMinWidth(60);
 		abonentsTable.getColumnModel().getColumn(2).setMinWidth(10);
@@ -313,8 +334,9 @@ public class MainForm extends JFrame implements ActionListener {
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
 
-		MainFonClass mainPanel = new MainFonClass();
-		mainPanel.add(scrollPane);
+		//MainFonClass mainPanel = new MainFonClass();
+		//mainPanel.add(scrollPane);
+		scrollPane.setBackground(Color.BLUE);
 
 		JPanel commandsPanel = new JPanel(new FlowLayout());
 		commandsPanel.add(jLab);
@@ -322,22 +344,25 @@ public class MainForm extends JFrame implements ActionListener {
 		commandsPanel.add(cmdUpdateAbonent);
 		commandsPanel.add(cmdDeleteAbonent);
 		commandsPanel.add(cmdPrintAbonent);
-
+		commandsPanel.add(cmdVillager);
+		commandsPanel.add(cmdTownsman);
 		commandsPanel.add(cmdOpenPayments);
 		commandsPanel.add(cmdClose);
-		Border northBorder = BorderFactory
-				.createTitledBorder("Список усіх абонентів");
-		commandsPanel.setBorder(northBorder);
+		//Border northBorder = BorderFactory
+				//.createTitledBorder("Список усіх абонентів");
+		//commandsPanel.setBorder(northBorder);
 		commandsPanel.setOpaque(false);
-		mainPanel.add(commandsPanel);
+		//mainPanel.add(commandsPanel);
 
 		// setModal(false);
 		getRootPane().setDefaultButton(cmdClose);
-		setSize(950, 380);
+		setSize(1300,370 );
 		setResizable(true);
+		getContentPane().setBackground(Color.LIGHT_GRAY);
 		getContentPane().add(tools, BorderLayout.NORTH);
-		getContentPane().add(mainPanel, BorderLayout.CENTER);
-
+		getContentPane().add(commandsPanel, BorderLayout.SOUTH);
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
 		abonentsTable.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 				if (me.isPopupTrigger())
@@ -373,6 +398,16 @@ public class MainForm extends JFrame implements ActionListener {
 				printAbonent();
 			}
 		});
+		cmdVillager.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				villagers.setVisible(true);
+			}
+		});
+		cmdTownsman.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				townsmans.setVisible(true);
+			}
+		});
 
 		cmdOpenPayments.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -399,13 +434,13 @@ public class MainForm extends JFrame implements ActionListener {
 				onClose();
 			}
 		});
-
-		mainPanel.registerKeyboardAction(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				onClose();
-			}
-		}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+//
+//		mainPanel.registerKeyboardAction(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				onClose();
+//			}
+//		}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+//				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 	}
 
 	private AbonentsTableModel getTableModel() {
@@ -421,6 +456,7 @@ public class MainForm extends JFrame implements ActionListener {
 		}
 		return new AbonentsTableModel(new ArrayList<Abonents>(0));
 	}
+	
 
 	private void printAbonent() {
 		try {
@@ -463,12 +499,14 @@ public class MainForm extends JFrame implements ActionListener {
 		if (index == -1)
 			return;
 
-		Abonents abonent = abn.getRowAbonent(index);
-		if (abonent != null) {
-			newAbonent.setAbonent(abonent);
+		Abonents a = abn.getRowAbonent(index);
+		if (a != null) {
+			newAbonent.setAbonent(a);
+			newAbonent.setVisible(true);
 			abn.refreshUpdatedTable();
 		}
 	}
+	
 
 	private void removeAbonent() {
 		if (JOptionPane.showConfirmDialog(MainForm.this,

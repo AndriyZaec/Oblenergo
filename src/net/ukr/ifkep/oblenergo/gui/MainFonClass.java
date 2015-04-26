@@ -10,13 +10,13 @@ import javax.swing.JPanel;
 
 public class MainFonClass extends JPanel {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1;
 
 	private BufferedImage Fonimage;
 
-	public MainFonClass() {
+	public MainFonClass(String s) {
 		try {
-			Fonimage = ImageIO.read(new File("img/newupdatefon.jpg"));
+			Fonimage = ImageIO.read(new File(s));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

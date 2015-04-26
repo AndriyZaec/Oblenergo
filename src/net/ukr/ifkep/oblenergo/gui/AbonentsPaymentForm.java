@@ -26,12 +26,13 @@ import net.ukr.ifkep.oblenergo.domain.Payments;
 
 public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
+	private static final long serialVersionUID = -6237172566791582262L;
 	private JButton cmdClose;
 	private JButton cmdaddPayment;
 	private JButton cmdupdatePayment;
 	private JButton cmdDeleteStudent;
 	private JButton cmdprintPayment;
-	private JTable studentsTable;
+	private JTable paymentTable;
 
 	private NewPayment newPay = new NewPayment();
 	JPopupMenu popupMenu = new JPopupMenu();
@@ -124,9 +125,16 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 	public AbonentsPaymentForm(Abonents a) throws IOException {
 		this.abonent = a;
-		setTitle("Оплата абонента  " + a.getSurname()+" "+a.getName());
+		setTitle("Оплата абонента " + a.getSurname()+" "+a.getName());
 
 		createMenu();
+		try{
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			SwingUtilities.updateComponentTreeUI(this);
+			
+		}catch(Exception e){
+			
+		}
 
 		ImageIcon kmNewicon = new ImageIcon("img/new.gif");
 		JMenuItem cmdKmNew = new JMenuItem("Новий запис", kmNewicon);
@@ -225,26 +233,33 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 		cmdupdatePayment = new JButton("Редагувати");
 		cmdDeleteStudent = new JButton("Видалити");
 		cmdprintPayment = new JButton("Вивести на друк");
+		
 		ptm = getTableModel(a);
-		studentsTable = new JTable(ptm);
-		studentsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		studentsTable
+		paymentTable = new JTable(ptm);
+		paymentTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		paymentTable
 				.setPreferredScrollableViewportSize(new Dimension(920, 180));
-		studentsTable.getColumnModel().getColumn(0).setMinWidth(200);
-		studentsTable.getColumnModel().getColumn(1).setMinWidth(80);
-		studentsTable.getColumnModel().getColumn(2).setMinWidth(60);
-		studentsTable.getColumnModel().getColumn(3).setMinWidth(60);
-		studentsTable.getColumnModel().getColumn(4).setMinWidth(240);
-		studentsTable.getColumnModel().getColumn(5).setMinWidth(100);
-		studentsTable.setGridColor(Color.ORANGE);
-		studentsTable.setRowHeight(20);
+		paymentTable.getColumnModel().getColumn(0).setMinWidth(10);
+		paymentTable.getColumnModel().getColumn(1).setMinWidth(30);
+		paymentTable.getColumnModel().getColumn(2).setMinWidth(40);
+		paymentTable.getColumnModel().getColumn(3).setMinWidth(40);
+		paymentTable.getColumnModel().getColumn(4).setMinWidth(20);
+		paymentTable.getColumnModel().getColumn(5).setMinWidth(20);
+		paymentTable.getColumnModel().getColumn(6).setMinWidth(20);
+		paymentTable.getColumnModel().getColumn(7).setMinWidth(20);
+		paymentTable.getColumnModel().getColumn(8).setMinWidth(40);
+		paymentTable.setGridColor(Color.ORANGE);
+		paymentTable.setRowHeight(20);
 		Font FontGrid = new Font(Font.MONOSPACED, Font.PLAIN, 14);
-		studentsTable.setFont(FontGrid);
-		JScrollPane scrollPane = new JScrollPane(studentsTable);
+		paymentTable.setFont(FontGrid);
+		
+		JScrollPane scrollPane = new JScrollPane(paymentTable);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
-		MainFonClass mainPanel = new MainFonClass();
+		
+		MainFonClass mainPanel = new MainFonClass("img/pay.jpg");
 		mainPanel.add(scrollPane);
+		
 		JPanel commandsPanel = new JPanel(new FlowLayout());
 		commandsPanel.add(cmdaddPayment);
 		commandsPanel.add(cmdupdatePayment);
@@ -260,7 +275,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 		getContentPane().add(tools, BorderLayout.NORTH);
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 
-		studentsTable.addMouseListener(new MouseAdapter() {
+		paymentTable.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 				if (me.isPopupTrigger())
 					popupMenu.show(me.getComponent(), me.getX(), me.getY());
@@ -336,33 +351,33 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 	}
 
 	private void addPayment() {
-//		Payments payment = new Payments();
-//		payment.setPayer(this.abonent.getId());
-//		newStudent.setStudent(student);
-//		newStudent.setVisible(true);
-//		if (newStudent.getStudent().getId() != null) {
-//			studentsTableModel.addPayment(newStudent.getStudent());
-//		}
+		Payments payment = new Payments();
+		payment.setPayer(this.abonent.getId());
+		newPay.setPayments(payment);
+		newPay.setVisible(true);
+		if (newPay.getPayments().getId() != null) {
+			ptm.addPayment(newPay.getPayments());
+		}
 	}
 
 	private void updatePayment() {
-		int index = studentsTable.getSelectedRow();
+		int index = paymentTable.getSelectedRow();
 		if (index == -1)
 			return;
 
 		Payments pay = ptm.getRowPayments(index);
 		if (pay != null) {
-//			newStudent.setStudent(student);
-//			newStudent.setVisible(true);
-//			studentsTableModel.refreshUpdatedTable();
+			newPay.setPayments(pay);
+			newPay.setVisible(true);
+			ptm.refreshUpdatedTable();
 		}
 	}
 
 	private void removePayment() {
 		if (JOptionPane.showConfirmDialog(AbonentsPaymentForm.this,
-				"Ви хочете видалити інформацію про студента?",
-				"Видалення запису про студента", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			int index = studentsTable.getSelectedRow();
+				"Ви хочете видалити інформацію про оплату?",
+				"Видалення запису про оплату", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			int index = paymentTable.getSelectedRow();
 			if (index == -1)
 				return;
 
@@ -384,7 +399,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 		try {
 			MessageFormat headerFormat = new MessageFormat("Сторінка {0}");
 			MessageFormat footerFormat = new MessageFormat("- {0} -");
-			studentsTable.print(JTable.PrintMode.FIT_WIDTH, headerFormat,
+			paymentTable.print(JTable.PrintMode.FIT_WIDTH, headerFormat,
 					footerFormat);
 		} catch (PrinterException pe) {
 			System.err.println("Неможливо роздрукувати документ по причині: "
