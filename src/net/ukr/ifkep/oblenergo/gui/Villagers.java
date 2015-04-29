@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 
 
@@ -36,8 +35,6 @@ public class Villagers extends JFrame implements ActionListener {
 	private JButton cmdDeleteAbonent;
 	private JButton cmdOpenPayments;
 	private JButton cmdPrintAbonent;
-	private JButton cmdVillager;
-	private JButton cmdTownsman;
 	private JLabel jLab;
 	private JTable abonentsTable;
 	
@@ -45,8 +42,8 @@ public class Villagers extends JFrame implements ActionListener {
 	private NewAbonent newAbonent = new NewAbonent();
 	private JPopupMenu popupMenu = new JPopupMenu();
 	
-	JButton bnew, bupdate, bremove, bprint, bclose, bstudent, bteacher,
-	cmdKmNew, cmdKmUpdate, cmdKmRemove, cmdKmPrint, cmdKmStudent,
+	JButton bnew, bupdate, bremove, bprint, bclose, bpayment, 
+	cmdKmNew, cmdKmUpdate, cmdKmRemove, cmdKmPrint, cmdKmPayment,
 	cmdKmTeacher, cmdKmClose;
 	
 	private AbonentsTableModel abn;
@@ -171,7 +168,7 @@ public class Villagers extends JFrame implements ActionListener {
 		
 		createMenu();
 
-		ImageIcon kmNewicon = new ImageIcon("img/new.gif");
+		ImageIcon kmNewicon = new ImageIcon("img/add.png");
 		JMenuItem cmdKmNew = new JMenuItem("Додати", kmNewicon);
 		cmdKmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.CTRL_MASK));
@@ -184,7 +181,7 @@ public class Villagers extends JFrame implements ActionListener {
 			}
 		});
 
-		ImageIcon kmUpdateicon = new ImageIcon("img/update.gif");
+		ImageIcon kmUpdateicon = new ImageIcon("img/upd.png");
 		JMenuItem cmdKmUpdate = new JMenuItem("Редагувати", kmUpdateicon);
 		cmdKmUpdate.addActionListener(this);
 		cmdKmUpdate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
@@ -196,7 +193,7 @@ public class Villagers extends JFrame implements ActionListener {
 				updateAbonent();
 			}
 		});
-		ImageIcon kmRemoveicon = new ImageIcon("img/remote.gif");
+		ImageIcon kmRemoveicon = new ImageIcon("img/del.png");
 		JMenuItem cmdKmRemove = new JMenuItem("Видалити", kmRemoveicon);
 		cmdKmRemove.addActionListener(this);
 		cmdKmRemove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
@@ -211,14 +208,14 @@ public class Villagers extends JFrame implements ActionListener {
 
 		popupMenu.addSeparator();
 
-		ImageIcon kmStudenticon = new ImageIcon("img/openPayment.gif");
-		JMenuItem cmdKmStudent = new JMenuItem("Відкрити інформацію про оплату", kmStudenticon);
-		cmdKmStudent.addActionListener(this);
-		cmdKmStudent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+		ImageIcon kmPaymenticon = new ImageIcon("img/pay.png");
+		JMenuItem cmdKmPayment = new JMenuItem("Відкрити інформацію про оплату", kmPaymenticon);
+		cmdKmPayment.addActionListener(this);
+		cmdKmPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
 				ActionEvent.CTRL_MASK));
-		popupMenu.add(cmdKmStudent);
+		popupMenu.add(cmdKmPayment);
 
-		cmdKmStudent.addActionListener(new ActionListener() {
+		cmdKmPayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					openPayments();
@@ -274,11 +271,11 @@ public class Villagers extends JFrame implements ActionListener {
 			}
 		});
 
-		bstudent = new JButton(new ImageIcon("img/pay.png"));
-		bstudent.setToolTipText("Відкрити оплату ");
-		tools.add(bstudent);
+		bpayment = new JButton(new ImageIcon("img/pay.png"));
+		bpayment.setToolTipText("Відкрити оплату ");
+		tools.add(bpayment);
 
-		bstudent.addActionListener(new ActionListener() {
+		bpayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					openPayments();
@@ -306,8 +303,6 @@ public class Villagers extends JFrame implements ActionListener {
 		cmdDeleteAbonent = new JButton("Видалити аонента");
 		cmdOpenPayments = new JButton("Відкрити оплату");
 		cmdPrintAbonent = new JButton("На друк");
-		cmdVillager=new JButton("Абоненти з сіл");
-		cmdTownsman=new JButton("Абоненти з міст");
 		jLab = new JLabel();
 
 	
@@ -342,17 +337,11 @@ public class Villagers extends JFrame implements ActionListener {
 		commandsPanel.add(cmdUpdateAbonent);
 		commandsPanel.add(cmdDeleteAbonent);
 		commandsPanel.add(cmdPrintAbonent);
-		commandsPanel.add(cmdVillager);
-		commandsPanel.add(cmdTownsman);
 		commandsPanel.add(cmdOpenPayments);
 		commandsPanel.add(cmdClose);
-		Border northBorder = BorderFactory
-				.createTitledBorder("Список усіх абонентів");
-		commandsPanel.setBorder(northBorder);
 		commandsPanel.setOpaque(false);
 		mainPanel.add(commandsPanel);
 
-		// setModal(false);
 		getRootPane().setDefaultButton(cmdClose);
 		setSize(1300,370 );
 		setResizable(true);
@@ -393,16 +382,6 @@ public class Villagers extends JFrame implements ActionListener {
 		cmdPrintAbonent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				printAbonent();
-			}
-		});
-		cmdVillager.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		cmdTownsman.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//getTableTownsmans();
 			}
 		});
 
@@ -457,12 +436,12 @@ public class Villagers extends JFrame implements ActionListener {
 
 	private void printAbonent() {
 		try {
-			MessageFormat headerFormat = new MessageFormat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {0}");
+			MessageFormat headerFormat = new MessageFormat("Абонент {0}");
 			MessageFormat footerFormat = new MessageFormat("- {0} -");
 			abonentsTable.print(JTable.PrintMode.FIT_WIDTH, headerFormat,
 					footerFormat);
 		} catch (PrinterException pe) {
-			System.err.println("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: "
+			System.err.println("Проблема друку: "
 					+ pe.getMessage());
 		}
 	}

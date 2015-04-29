@@ -22,9 +22,12 @@ public class AbonentsDAO {
 	private static final String SELECT_QUERY = "select  `Особовий рахунок`, Прізвище, `Ім'я`, `Дата народження`, Стать,"
 			+ "`Тип населеного пункту`,	`Назва населеного пункту`,	Адреса,`Номер телефону` "
 			+ "from oblenergo.`абоненти` where  `Особовий рахунок` = ?";
+	private static final String SELECT_DEBTOR = "select  `Особовий рахунок`, Прізвище, `Ім'я`, `Дата народження`, Стать,"
+			+ "`Тип населеного пункту`,	`Назва населеного пункту`,	Адреса,`Номер телефону` "
+			+ "from oblenergo.`абоненти`,oblenergo.`оплата` where  `Борг` > 0 and `абоненти`.`Особовий рахунок`=`оплата`.`Платник`";
 	private static final String SELECT_ALL_QUERY = "select  `Особовий рахунок`, Прізвище, `Ім'я`, `Дата народження`, Стать,"
 			+ "`Тип населеного пункту`,	`Назва населеного пункту`,	Адреса,`Номер телефону` "
-			+ "from oblenergo.`абоненти` ";
+			+ "from oblenergo.`абоненти` group  by `Прізвище` asc";
 	private static final String SELECT_VILLEGERS = "select  `Особовий рахунок`, Прізвище, `Ім'я`, `Дата народження`, Стать,"
 			+ "`Тип населеного пункту`,	`Назва населеного пункту`,	Адреса,`Номер телефону` "
 			+ "from oblenergo.`абоненти` where  `Тип населеного пункту` = 'село'";
@@ -144,6 +147,23 @@ public class AbonentsDAO {
 		Connection connection = AccessUtil.createConnection();
 		PreparedStatement statement = connection
 				.prepareStatement(SELECT_TOWNSMANS);
+		try {
+			ResultSet rs = statement.executeQuery();
+			List<Abonents> result = new ArrayList<Abonents>();
+			while (rs.next()) {
+				result.add(getAbonentFromRow(rs));
+			}
+			return result;
+		} finally {
+			AccessUtil.close(connection);
+		}
+	}
+	
+
+	public List<Abonents> findDebtors() throws Exception {
+		Connection connection = AccessUtil.createConnection();
+		PreparedStatement statement = connection
+				.prepareStatement(SELECT_DEBTOR);
 		try {
 			ResultSet rs = statement.executeQuery();
 			List<Abonents> result = new ArrayList<Abonents>();

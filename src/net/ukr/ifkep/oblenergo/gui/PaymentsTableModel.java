@@ -12,7 +12,7 @@ public class PaymentsTableModel extends AbstractTableModel {
 
 	private String[] columns = new String[] { "№", "Дата оплати","Дата останньої оплати",
 			"Поточний показник лічильника", "Останній показник лічильника", "Ліміт споживання", 
-			"Перевикористання ліміту","Борг","Сума до оплати","Платник" };
+			"Перевикористання ліміту","Борг","Сума до оплати" };
 
 	private List<Payments> payments;
 

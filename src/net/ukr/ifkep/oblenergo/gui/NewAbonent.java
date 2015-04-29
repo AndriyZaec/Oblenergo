@@ -7,10 +7,12 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.text.MaskFormatter;
 
 import net.ukr.ifkep.oblenergo.gui.MainFonClass;
 import net.ukr.ifkep.oblenergo.dao.AbonentsDAO;
@@ -45,8 +48,6 @@ public class NewAbonent extends JDialog{
 	private JLabel JLabel_8 = new JLabel();
 
 	public NewAbonent() {
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		JDialog.setDefaultLookAndFeelDecorated(true);
 		try{
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 			SwingUtilities.updateComponentTreeUI(this);
@@ -61,15 +62,28 @@ public class NewAbonent extends JDialog{
 
 		final JButton cmdSave = new JButton("Зберегти");
 		final JButton cmdCancel = new JButton("Відмінити");
-
+		
+	
+		
 		surname = new JTextField(15);
+		
 		name = new JTextField(15);
-		birth = new JTextField(15);
+		try {
+			MaskFormatter date = new MaskFormatter("##/##/####");
+			birth = new JFormattedTextField(date);
+			} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		sex=new JComboBox(new Object[] { "ч","ж" });
 		typeLocality=new JComboBox(new Object[] { "місто","село" });
 		nameLocality = new JTextField(30);
 		adrress=new JTextField(25);
-		tel=new JTextField(10);
+		try {
+			MaskFormatter phone = new MaskFormatter("+38(###)###-##-##");
+			tel = new JFormattedTextField(phone);
+			} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		
 		MainFonClass NewAbonentMainPanel = new MainFonClass("img/newupdatefon.jpg");
 		final JPanel fieldsPanel = new JPanel(new GridLayout(8, 2, 2, 2));
@@ -123,9 +137,35 @@ public class NewAbonent extends JDialog{
 		NewAbonentMainPanel.add(commandsPanelBorder, BorderLayout.SOUTH);
 		Container c = getContentPane();
 		c.add(NewAbonentMainPanel);
+		
+		surname.addKeyListener(new java.awt.event.KeyAdapter() {
+	        public void keyTyped(java.awt.event.KeyEvent e) {
+	          char a = e.getKeyChar();
+	          if (Character.isDigit(a)){            
+	            e.consume();
+	          }
+	        }
+	      });
+		name.addKeyListener(new java.awt.event.KeyAdapter() {
+	        public void keyTyped(java.awt.event.KeyEvent e) {
+	          char a = e.getKeyChar();
+	          if (Character.isDigit(a)){            
+	            e.consume();
+	          }
+	        }
+	      });
+		nameLocality.addKeyListener(new java.awt.event.KeyAdapter() {
+	        public void keyTyped(java.awt.event.KeyEvent e) {
+	          char a = e.getKeyChar();
+	          if (Character.isDigit(a)){            
+	            e.consume();
+	          }
+	        }
+	      });
+		
 		cmdSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveNewAbonent();
+			public void actionPerformed(ActionEvent e) {	
+					saveNewAbonent();
 			}
 		});
 
@@ -162,19 +202,18 @@ public class NewAbonent extends JDialog{
 			abonent.setNameLocality(nameLocality.getText());
 			abonent.setAddress(adrress.getText());
 			abonent.setTelephone(tel.getText());
-			
 
 			if (abonent.getId() == null) {
 				int newId = new AbonentsDAO().insertAbonent(abonent);
 				abonent.setId(newId);
 			} else {
 				new AbonentsDAO().updateAbonent(abonent);
-			}
 			this.setVisible(false);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(this,
-					"Помилка при збереженні студента: " + e.getMessage());
+					"Помилка при збереженні абонента: " + e.getMessage());
 		}
 	}
 

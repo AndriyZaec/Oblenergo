@@ -23,9 +23,7 @@ import javax.swing.UIManager;
 import javax.swing.text.MaskFormatter;
 
 import net.ukr.ifkep.oblenergo.gui.MainFonClass;
-import net.ukr.ifkep.oblenergo.dao.AbonentsDAO;
 import net.ukr.ifkep.oblenergo.dao.PaymentDAO;
-import net.ukr.ifkep.oblenergo.domain.Abonents;
 import net.ukr.ifkep.oblenergo.domain.Payments;
 
 public class NewPayment extends JDialog{
@@ -60,7 +58,7 @@ public class NewPayment extends JDialog{
 			
 		}
 		setTitle("Додавання інформації про оплату");
-		setSize(800,400);
+		setSize(600,350);
 		setModal(true);
 		setResizable(false);
 
@@ -70,9 +68,18 @@ public class NewPayment extends JDialog{
 
 		cmdSave.setEnabled(false);
 		
-		//MaskFormatter m = new MaskFormatter("##-##-##"); 
-		payDate = new JTextField(15);
-		curPay = new JTextField(15);
+		try {
+			MaskFormatter date = new MaskFormatter("##/##/####");
+			payDate = new JFormattedTextField(date);
+			} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			MaskFormatter date = new MaskFormatter("##/##/####");
+			curPay = new JFormattedTextField(date);
+			} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		curIndex = new JTextField(15);
 		lastIndex= new JTextField(15);
 		limit =new JComboBox<Object>(new Object[] { "200","366","422" });
@@ -82,6 +89,7 @@ public class NewPayment extends JDialog{
 		
 		price.setEnabled(false);
 		excLimit.setEnabled(false);
+		debt.setForeground(Color.RED);
 		
 		MainFonClass NewAbonentMainPanel = new MainFonClass("img/newupdatefon.jpg");
 		final JPanel fieldsPanel = new JPanel(new GridLayout(8, 2, 2, 2));
@@ -137,6 +145,30 @@ public class NewPayment extends JDialog{
 		Container c = getContentPane();
 		c.add(NewAbonentMainPanel);
 		
+		curIndex.addKeyListener(new java.awt.event.KeyAdapter() {
+	        public void keyTyped(java.awt.event.KeyEvent e) {
+	          char a = e.getKeyChar();
+	          if (!Character.isDigit(a)){            
+	            e.consume();
+	          }
+	        }
+	      });
+		debt.addKeyListener(new java.awt.event.KeyAdapter() {
+	        public void keyTyped(java.awt.event.KeyEvent e) {
+	          char a = e.getKeyChar();
+	          if (!Character.isDigit(a)){            
+	            e.consume();
+	          }
+	        }
+	      });
+		curIndex.addKeyListener(new java.awt.event.KeyAdapter() {
+	        public void keyTyped(java.awt.event.KeyEvent e) {
+	          char a = e.getKeyChar();
+	          if (!Character.isDigit(a)){            
+	            e.consume();
+	          }
+	        }
+	      });
 		cmdSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveNewPayment();
@@ -207,7 +239,7 @@ public class NewPayment extends JDialog{
 			pay.setExcessLimit(Float.parseFloat(excLimit.getText()));
 			pay.setDebt(Float.parseFloat(debt.getText()));
 			pay.setPrice(Float.parseFloat(price.getText()));
-			
+			//pay.setPayer();
 
 			if (pay.getId() == null) {
 				int newId = new PaymentDAO().insertPayment(pay);

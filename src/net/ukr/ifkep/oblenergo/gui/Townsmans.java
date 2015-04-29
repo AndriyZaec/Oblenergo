@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.border.Border;
+
+
+
 
 
 
@@ -36,8 +38,6 @@ public class Townsmans extends JFrame implements ActionListener {
 	private JButton cmdDeleteAbonent;
 	private JButton cmdOpenPayments;
 	private JButton cmdPrintAbonent;
-	private JButton cmdVillager;
-	private JButton cmdTownsman;
 	private JLabel jLab;
 	private JTable abonentsTable;
 	
@@ -45,9 +45,8 @@ public class Townsmans extends JFrame implements ActionListener {
 	private NewAbonent newAbonent = new NewAbonent();
 	private JPopupMenu popupMenu = new JPopupMenu();
 	
-	JButton bnew, bupdate, bremove, bprint, bclose, bstudent, bteacher,
-	cmdKmNew, cmdKmUpdate, cmdKmRemove, cmdKmPrint, cmdKmStudent,
-	cmdKmTeacher, cmdKmClose;
+	JButton bnew, bupdate, bremove, bprint, bclose, bpayments, 
+	cmdKmNew, cmdKmUpdate, cmdKmRemove, cmdKmPrint, cmdKmPayment, cmdKmClose;
 	
 	private AbonentsTableModel abn;
 	
@@ -66,13 +65,11 @@ public class Townsmans extends JFrame implements ActionListener {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-		} else if (e.getSource() == onClose) {
-			onClose();
 		}
 	}
 
-	JMenuItem addAbonent, updateAbonent, removeAbonent, printAbonent, openPayment,
-			openTeacher, onClose;
+	JMenuItem addAbonent, updateAbonent, removeAbonent, printAbonent, openPayment, openMainForm, openTowmsmans,openDebeters
+	,onClose;
 
 	void createMenu() {
 		Color colorMenu = (Color.ORANGE);
@@ -82,13 +79,12 @@ public class Townsmans extends JFrame implements ActionListener {
 		JMenu mFile = new JMenu("Файл");
 		JMenu mInform = new JMenu("Інформація");
 		JMenu mAbout = new JMenu("Про нас");
-		//MenuBar.add(Box.createHorizontalGlue());
 		mFile.setFont(fontMenu);
 		mInform.setFont(fontMenu);
 		mAbout.setFont(fontMenu);
 		MenuBar.setBackground(colorMenu);
 
-		ImageIcon icon = new ImageIcon("img/new.gif");
+		ImageIcon icon = new ImageIcon("img/add.png");
 		addAbonent = new JMenuItem("Додати нового абонента", icon);
 		addAbonent.setToolTipText("Форма для внесення інформацію про нового абонента");
 		addAbonent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
@@ -97,7 +93,7 @@ public class Townsmans extends JFrame implements ActionListener {
 		addAbonent.addActionListener(this);
 		mFile.add(addAbonent);
 
-		ImageIcon icon3 = new ImageIcon("img/update.gif");
+		ImageIcon icon3 = new ImageIcon("img/upd.png");
 		updateAbonent = new JMenuItem("Редагувати", icon3);
 		updateAbonent.setToolTipText("Редагування інформації про нового абонента");
 		updateAbonent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
@@ -106,7 +102,7 @@ public class Townsmans extends JFrame implements ActionListener {
 		updateAbonent.addActionListener(this);
 		mFile.add(updateAbonent);
 
-		ImageIcon icon2 = new ImageIcon("img/remote.gif");
+		ImageIcon icon2 = new ImageIcon("img/del.png");
 		removeAbonent = new JMenuItem("Видалення", icon2);
 		removeAbonent.setToolTipText("Видаляє інформацію про абонента");
 		removeAbonent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
@@ -117,7 +113,7 @@ public class Townsmans extends JFrame implements ActionListener {
 
 		mFile.addSeparator();
 
-		ImageIcon icon7 = new ImageIcon("img/print.gif");
+		ImageIcon icon7 = new ImageIcon("img/print.png");
 		printAbonent = new JMenuItem("На друк", icon7);
 		printAbonent.setToolTipText("Виведення на друк інформації про абонента");
 		printAbonent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
@@ -128,10 +124,10 @@ public class Townsmans extends JFrame implements ActionListener {
 
 		mFile.addSeparator();
 
-		ImageIcon icon6 = new ImageIcon("img/openPayment.gif");
+		ImageIcon icon6 = new ImageIcon("img/pay.png");
 		openPayment = new JMenuItem("Інформація про оплату", icon6);
 		openPayment.setToolTipText("Інформація про оплату");
-		openPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+		openPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
 				ActionEvent.CTRL_MASK));
 		openPayment.setFont(fontMenu);
 		openPayment.addActionListener(this);
@@ -140,7 +136,7 @@ public class Townsmans extends JFrame implements ActionListener {
 		mInform.addSeparator();
 
 
-		ImageIcon icon4 = new ImageIcon("img/onclose.gif");
+		ImageIcon icon4 = new ImageIcon("img/exit.png");
 		onClose = new JMenuItem("Вихід", icon4);
 		onClose.setToolTipText("Виходить та закриває програму");
 		onClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
@@ -158,7 +154,7 @@ public class Townsmans extends JFrame implements ActionListener {
 
 	public Townsmans() {
 		super();
-		setTitle("Головна форма");
+		setTitle("Абоненти з міст");
 
 		try{
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -171,7 +167,7 @@ public class Townsmans extends JFrame implements ActionListener {
 		
 		createMenu();
 
-		ImageIcon kmNewicon = new ImageIcon("img/new.gif");
+		ImageIcon kmNewicon = new ImageIcon("img/add.png");
 		JMenuItem cmdKmNew = new JMenuItem("Додати", kmNewicon);
 		cmdKmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.CTRL_MASK));
@@ -184,7 +180,7 @@ public class Townsmans extends JFrame implements ActionListener {
 			}
 		});
 
-		ImageIcon kmUpdateicon = new ImageIcon("img/update.gif");
+		ImageIcon kmUpdateicon = new ImageIcon("img/upd.png");
 		JMenuItem cmdKmUpdate = new JMenuItem("Редагувати", kmUpdateicon);
 		cmdKmUpdate.addActionListener(this);
 		cmdKmUpdate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
@@ -196,7 +192,7 @@ public class Townsmans extends JFrame implements ActionListener {
 				updateAbonent();
 			}
 		});
-		ImageIcon kmRemoveicon = new ImageIcon("img/remote.gif");
+		ImageIcon kmRemoveicon = new ImageIcon("img/del.png");
 		JMenuItem cmdKmRemove = new JMenuItem("Видалити", kmRemoveicon);
 		cmdKmRemove.addActionListener(this);
 		cmdKmRemove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
@@ -211,14 +207,14 @@ public class Townsmans extends JFrame implements ActionListener {
 
 		popupMenu.addSeparator();
 
-		ImageIcon kmStudenticon = new ImageIcon("img/openPayment.gif");
-		JMenuItem cmdKmStudent = new JMenuItem("Відкрити інформацію про оплату", kmStudenticon);
-		cmdKmStudent.addActionListener(this);
-		cmdKmStudent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+		ImageIcon kmPayicon = new ImageIcon("img/pay.png");
+		JMenuItem cmdKmPayment = new JMenuItem("Відкрити інформацію про оплату", kmPayicon);
+		cmdKmPayment.addActionListener(this);
+		cmdKmPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
 				ActionEvent.CTRL_MASK));
-		popupMenu.add(cmdKmStudent);
+		popupMenu.add(cmdKmPayment);
 
-		cmdKmStudent.addActionListener(new ActionListener() {
+		cmdKmPayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					openPayments();
@@ -274,11 +270,11 @@ public class Townsmans extends JFrame implements ActionListener {
 			}
 		});
 
-		bstudent = new JButton(new ImageIcon("img/pay.png"));
-		bstudent.setToolTipText("Відкрити оплату ");
-		tools.add(bstudent);
+		bpayments = new JButton(new ImageIcon("img/pay.png"));
+		bpayments.setToolTipText("Відкрити оплату ");
+		tools.add(bpayments);
 
-		bstudent.addActionListener(new ActionListener() {
+		bpayments.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					openPayments();
@@ -307,8 +303,6 @@ public class Townsmans extends JFrame implements ActionListener {
 		cmdDeleteAbonent = new JButton("Видалити аонента");
 		cmdOpenPayments = new JButton("Відкрити оплату");
 		cmdPrintAbonent = new JButton("На друк");
-		cmdVillager=new JButton("Абоненти з сіл");
-		cmdTownsman=new JButton("Абоненти з міст");
 		jLab = new JLabel();
 
 	
@@ -343,17 +337,11 @@ public class Townsmans extends JFrame implements ActionListener {
 		commandsPanel.add(cmdUpdateAbonent);
 		commandsPanel.add(cmdDeleteAbonent);
 		commandsPanel.add(cmdPrintAbonent);
-		commandsPanel.add(cmdVillager);
-		commandsPanel.add(cmdTownsman);
 		commandsPanel.add(cmdOpenPayments);
 		commandsPanel.add(cmdClose);
-		Border northBorder = BorderFactory
-				.createTitledBorder("Список усіх абонентів");
-		commandsPanel.setBorder(northBorder);
 		commandsPanel.setOpaque(false);
 		mainPanel.add(commandsPanel);
 
-		// setModal(false);
 		getRootPane().setDefaultButton(cmdClose);
 		setSize(1300,370 );
 		setResizable(true);
@@ -394,16 +382,6 @@ public class Townsmans extends JFrame implements ActionListener {
 		cmdPrintAbonent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				printAbonent();
-			}
-		});
-		cmdVillager.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		cmdTownsman.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//getTableTownsmans();
 			}
 		});
 
@@ -458,12 +436,12 @@ public class Townsmans extends JFrame implements ActionListener {
 
 	private void printAbonent() {
 		try {
-			MessageFormat headerFormat = new MessageFormat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {0}");
+			MessageFormat headerFormat = new MessageFormat("Абонент {0}");
 			MessageFormat footerFormat = new MessageFormat("- {0} -");
 			abonentsTable.print(JTable.PrintMode.FIT_WIDTH, headerFormat,
 					footerFormat);
 		} catch (PrinterException pe) {
-			System.err.println("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: "
+			System.err.println("Помилка друку: "
 					+ pe.getMessage());
 		}
 	}

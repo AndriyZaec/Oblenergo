@@ -13,12 +13,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 
 import net.ukr.ifkep.oblenergo.dao.PaymentDAO;
 import net.ukr.ifkep.oblenergo.domain.Abonents;
@@ -37,7 +40,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 	private NewPayment newPay = new NewPayment();
 	JPopupMenu popupMenu = new JPopupMenu();
 
-	JButton bnew, bupdate, bremove, bprint, bclose, cmdKmNew, cmdKmUpdate,
+	JButton bnew, bupdate, bremove, bprint, bexcel, bclose, cmdKmNew, cmdKmUpdate,
 			cmdKmRemove, cmdKmPrint, cmdKmClose;
 
 	private PaymentsTableModel  ptm;
@@ -69,7 +72,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 		mFile.setFont(fontMenu);
 		MenuBar.setBackground(colorMenu);
 
-		ImageIcon icon = new ImageIcon("img/new.gif");
+		ImageIcon icon = new ImageIcon("img/add.png");
 		addPayment = new JMenuItem("Додати студента", icon);
 		addPayment.setToolTipText("Добавити новий запис до бази");
 		addPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
@@ -78,7 +81,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 		addPayment.addActionListener(this);
 		mFile.add(addPayment);
 
-		ImageIcon icon3 = new ImageIcon("img/update.gif");
+		ImageIcon icon3 = new ImageIcon("img/upd.png");
 		updatePayment = new JMenuItem("Внести зміни", icon3);
 		updatePayment.setToolTipText("Внести зміни у вже створений запис");
 		updatePayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
@@ -87,7 +90,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 		updatePayment.addActionListener(this);
 		mFile.add(updatePayment);
 
-		ImageIcon icon2 = new ImageIcon("img/remote.gif");
+		ImageIcon icon2 = new ImageIcon("img/del.png");
 		removePayment = new JMenuItem("Видалити студента", icon2);
 		removePayment.setToolTipText("Видалити запис у базі");
 		removePayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
@@ -98,7 +101,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 		mFile.addSeparator();
 
-		ImageIcon icon7 = new ImageIcon("img/print.gif");
+		ImageIcon icon7 = new ImageIcon("img/print.png");
 		printPayment = new JMenuItem("Вивести на друк", icon7);
 		printPayment.setToolTipText("Роздрукувати інформацію з таблиці");
 		printPayment.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
@@ -109,7 +112,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 		mFile.addSeparator();
 
-		ImageIcon icon4 = new ImageIcon("img/onclose.gif");
+		ImageIcon icon4 = new ImageIcon("img/exit.png");
 		onClose = new JMenuItem("Закрити вікно", icon4);
 		onClose.setToolTipText("Перехід до головної форми");
 		onClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
@@ -136,7 +139,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 			
 		}
 
-		ImageIcon kmNewicon = new ImageIcon("img/new.gif");
+		ImageIcon kmNewicon = new ImageIcon("img/add.png");
 		JMenuItem cmdKmNew = new JMenuItem("Новий запис", kmNewicon);
 		cmdKmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 				ActionEvent.CTRL_MASK));
@@ -149,7 +152,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 			}
 		});
 
-		ImageIcon kmUpdateicon = new ImageIcon("img/update.gif");
+		ImageIcon kmUpdateicon = new ImageIcon("img/upd.png");
 		JMenuItem cmdKmUpdate = new JMenuItem("Редагувати запис", kmUpdateicon);
 		cmdKmUpdate.addActionListener(this);
 		cmdKmUpdate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U,
@@ -162,7 +165,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 			}
 		});
 		popupMenu.addSeparator();
-		ImageIcon kmRemoveicon = new ImageIcon("img/remote.gif");
+		ImageIcon kmRemoveicon = new ImageIcon("img/del.png");
 		JMenuItem cmdKmRemove = new JMenuItem("Видалити запис", kmRemoveicon);
 		cmdKmRemove.addActionListener(this);
 		cmdKmRemove.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
@@ -178,8 +181,9 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 		JToolBar tools = new JToolBar();
 		Color ColorBar = Color.GRAY;
 		tools.setBackground(ColorBar);
+		tools.setFloatable(false);
 
-		bnew = new JButton(new ImageIcon("img/new.gif"));
+		bnew = new JButton(new ImageIcon("img/add.png"));
 		bnew.setToolTipText("Новий запис");
 		tools.add(bnew);
 
@@ -189,7 +193,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 			}
 		});
 
-		bupdate = new JButton(new ImageIcon("img/update.gif"));
+		bupdate = new JButton(new ImageIcon("img/upd.png"));
 		bupdate.setToolTipText("Редагувати запис");
 		tools.add(bupdate);
 
@@ -199,7 +203,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 			}
 		});
 
-		bremove = new JButton(new ImageIcon("img/remote.gif"));
+		bremove = new JButton(new ImageIcon("img/del.png"));
 		bremove.setToolTipText("Видалити запис");
 		tools.add(bremove);
 
@@ -208,7 +212,7 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 				removePayment();
 			}
 		});
-		bprint = new JButton(new ImageIcon("img/print.gif"));
+		bprint = new JButton(new ImageIcon("img/print.png"));
 		bprint.setToolTipText("Роздрукувати інформацію");
 		tools.add(bprint);
 
@@ -217,8 +221,24 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 				printPayment();
 			}
 		});
+		
+		bexcel= new JButton(new ImageIcon("img/excel.png"));
+		bexcel.setToolTipText("Конвертація в Excel");
+		tools.add(bexcel);
+		
+		bexcel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				convExcel();
+				if (new File("Files/Payments.xls").exists()==true) {
+		        	JOptionPane.showMessageDialog(AbonentsPaymentForm.this, "Excel таблиця створена");
+		        }
+		        else if(new File("Files/Payments.xls").exists()==false){
+		        	JOptionPane.showMessageDialog(AbonentsPaymentForm.this, "Excel таблиця не створена");
+		        }
+			}
+		});
 
-		bclose = new JButton(new ImageIcon("img/onclose.gif"));
+		bclose = new JButton(new ImageIcon("img/exit.png"));
 		bclose.setToolTipText("Закрити програму");
 		tools.add(bclose);
 
@@ -367,6 +387,8 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 
 		Payments pay = ptm.getRowPayments(index);
 		if (pay != null) {
+			Payments payment = new Payments();
+			payment.setPayer(this.abonent.getId());
 			newPay.setPayments(pay);
 			newPay.setVisible(true);
 			ptm.refreshUpdatedTable();
@@ -394,6 +416,30 @@ public class AbonentsPaymentForm extends JDialog implements ActionListener {
 			}
 		}
 	}
+	private void convExcel(){
+		 try{
+		        TableModel model = paymentTable.getModel();
+		        FileWriter excel = new FileWriter("Files/Payments.xls");
+
+		        for(int i = 0; i < model.getColumnCount(); i++){
+		            excel.write(model.getColumnName(i) + "\t");
+		        }
+
+		        excel.write("\n");
+
+		        for(int i=0; i< model.getRowCount(); i++) {
+		            for(int j=0; j < model.getColumnCount(); j++) {
+		                excel.write(model.getValueAt(i,j).toString()+"\t");
+		            }
+		            excel.write("\n");
+		        }
+
+		        excel.close();
+		       
+
+		    }catch(IOException ex){ System.out.println(ex); }
+	}
+
 
 	private void printPayment() {
 		try {
